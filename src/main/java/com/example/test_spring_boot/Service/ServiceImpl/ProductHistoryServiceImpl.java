@@ -228,96 +228,94 @@ public class ProductHistoryServiceImpl implements ProductHistoryService {
     @Override
     public Workbook exportBySearchDto(List<ReceiptDto> receiptDtos, HttpServletResponse response) {
         HSSFWorkbook workbook = null;
+        workbook = new HSSFWorkbook();
+        CreationHelper createHelper = workbook.getCreationHelper();
+        Sheet sheet = workbook.createSheet("Report");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0 , 0, 7));
+
+        HSSFFont font = workbook.createFont();
+        font.setFontHeightInPoints((short) 12);
+        font.setColor(HSSFFont.COLOR_NORMAL);
+        font.setBold(true);
+
+        HSSFCellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(font);
+        headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+        headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        headerCellStyle.setWrapText(false);
+        headerCellStyle.setBorderBottom(BorderStyle.THIN);
+        headerCellStyle.setBorderLeft(BorderStyle.THIN);
+        headerCellStyle.setBorderRight(BorderStyle.THIN);
+        headerCellStyle.setBorderTop(BorderStyle.THIN);
+
+        HSSFFont fontcontent = workbook.createFont();
+        fontcontent.setFontHeightInPoints((short) 11);
+        fontcontent.setColor(HSSFFont.COLOR_NORMAL);
+
+        HSSFCellStyle contentCellStyle = workbook.createCellStyle();
+        contentCellStyle.setFont(fontcontent);
+        contentCellStyle.setAlignment(HorizontalAlignment.CENTER);
+        contentCellStyle.setWrapText(false);
+        contentCellStyle.setBorderBottom(BorderStyle.THIN);
+        contentCellStyle.setBorderLeft(BorderStyle.THIN);
+        contentCellStyle.setBorderRight(BorderStyle.THIN);
+        contentCellStyle.setBorderTop(BorderStyle.THIN);
+
+        HSSFCellStyle contentCellStyleDate = workbook.createCellStyle();
+        contentCellStyleDate.setFont(fontcontent);
+        contentCellStyleDate.setAlignment(HorizontalAlignment.CENTER);
+        contentCellStyleDate.setWrapText(false);
+        contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
+        contentCellStyleDate.setBorderLeft(BorderStyle.THIN);
+        contentCellStyleDate.setBorderRight(BorderStyle.THIN);
+        contentCellStyleDate.setBorderTop(BorderStyle.THIN);
+        contentCellStyleDate.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
+
+        Integer rowIndex = 0;
+        Integer cellIndex = 0;
+        Row rowHeader = sheet.createRow(rowIndex);
+        Cell cellHeader = null;
+
+        rowHeader.setHeightInPoints(33);
+        cellHeader = rowHeader.createCell(cellIndex);
+        cellHeader.setCellValue("THỐNG KÊ CÁC SẢN PHẨM ĐÃ BÁN");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        rowHeader = sheet.createRow(rowIndex +=1);
+        cellHeader = rowHeader.createCell(cellIndex);
+        cellHeader.setCellValue("STT");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex +=1);
+        cellHeader.setCellValue("Tên sản phẩm");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex += 1);
+        cellHeader.setCellValue("Tên danh mục");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex += 1);
+        cellHeader.setCellValue("Đơn giá");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex += 1);
+        cellHeader.setCellValue("Số lượng mua");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex += 1);
+        cellHeader.setCellValue("Họ tên người mua");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex += 1);
+        cellHeader.setCellValue("Tên tài khoản");
+        cellHeader.setCellStyle(headerCellStyle);
+
+        cellHeader = rowHeader.createCell(cellIndex += 1);
+        cellHeader.setCellValue("Ngày mua");
+        cellHeader.setCellStyle(headerCellStyle);
+        Integer numberOfItem = 0;
         for (ReceiptDto r :receiptDtos){
-            try {
-                workbook = new HSSFWorkbook();
-                CreationHelper createHelper = workbook.getCreationHelper();
-                Sheet sheet = workbook.createSheet("Report");
-                sheet.addMergedRegion(new CellRangeAddress(0, 0 , 0, 7));
-
                 List<ProductHistoryDto> lstProductDto = r.getListProductDTO();
-
-                HSSFFont font = workbook.createFont();
-                font.setFontHeightInPoints((short) 12);
-                font.setColor(HSSFFont.COLOR_NORMAL);
-                font.setBold(true);
-
-                HSSFCellStyle headerCellStyle = workbook.createCellStyle();
-                headerCellStyle.setFont(font);
-                headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
-                headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-                headerCellStyle.setWrapText(false);
-                headerCellStyle.setBorderBottom(BorderStyle.THIN);
-                headerCellStyle.setBorderLeft(BorderStyle.THIN);
-                headerCellStyle.setBorderRight(BorderStyle.THIN);
-                headerCellStyle.setBorderTop(BorderStyle.THIN);
-
-                HSSFFont fontcontent = workbook.createFont();
-                fontcontent.setFontHeightInPoints((short) 11);
-                fontcontent.setColor(HSSFFont.COLOR_NORMAL);
-
-                HSSFCellStyle contentCellStyle = workbook.createCellStyle();
-                contentCellStyle.setFont(fontcontent);
-                contentCellStyle.setAlignment(HorizontalAlignment.CENTER);
-                contentCellStyle.setWrapText(false);
-                contentCellStyle.setBorderBottom(BorderStyle.THIN);
-                contentCellStyle.setBorderLeft(BorderStyle.THIN);
-                contentCellStyle.setBorderRight(BorderStyle.THIN);
-                contentCellStyle.setBorderTop(BorderStyle.THIN);
-
-                HSSFCellStyle contentCellStyleDate = workbook.createCellStyle();
-                contentCellStyleDate.setFont(fontcontent);
-                contentCellStyleDate.setAlignment(HorizontalAlignment.CENTER);
-                contentCellStyleDate.setWrapText(false);
-                contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
-                contentCellStyleDate.setBorderLeft(BorderStyle.THIN);
-                contentCellStyleDate.setBorderRight(BorderStyle.THIN);
-                contentCellStyleDate.setBorderTop(BorderStyle.THIN);
-                contentCellStyleDate.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
-
-                Integer rowIndex = 0;
-                Integer cellIndex = 0;
-                Row rowHeader = sheet.createRow(rowIndex);
-                Cell cellHeader = null;
-
-                rowHeader.setHeightInPoints(33);
-                cellHeader = rowHeader.createCell(cellIndex);
-                cellHeader.setCellValue("THỐNG KÊ CÁC SẢN PHẨM ĐÃ BÁN");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                rowHeader = sheet.createRow(rowIndex +=1);
-                cellHeader = rowHeader.createCell(cellIndex);
-                cellHeader.setCellValue("STT");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex +=1);
-                cellHeader.setCellValue("Tên sản phẩm");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex += 1);
-                cellHeader.setCellValue("Tên danh mục");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex += 1);
-                cellHeader.setCellValue("Đơn giá");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex += 1);
-                cellHeader.setCellValue("Số lượng mua");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex += 1);
-                cellHeader.setCellValue("Họ tên người mua");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex += 1);
-                cellHeader.setCellValue("Tên tài khoản");
-                cellHeader.setCellStyle(headerCellStyle);
-
-                cellHeader = rowHeader.createCell(cellIndex += 1);
-                cellHeader.setCellValue("Ngày mua");
-                cellHeader.setCellStyle(headerCellStyle);
-                Integer numberOfItem = 0;
                 for (ProductHistoryDto item : lstProductDto) {
                     numberOfItem +=1;
                     rowIndex += 1;
@@ -356,21 +354,25 @@ public class ProductHistoryServiceImpl implements ProductHistoryService {
                     cellHeader.setCellStyle(contentCellStyleDate);
 
                 }
-
                 rowIndex += 1;
-                cellIndex = 2;
-
+                cellIndex = 0;
+                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 0, 0));
                 rowHeader = sheet.createRow(rowIndex);
                 cellHeader = rowHeader.createCell(cellIndex);
                 cellHeader.setCellValue("Tài khoản: "+r.getName());
                 cellHeader.setCellStyle(headerCellStyle);
-
+                contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
+                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 1, 1));
                 cellHeader = rowHeader.createCell(cellIndex += 1);
                 cellHeader.setCellValue("Tổng tiền: "+r.getPrice());
                 cellHeader.setCellStyle(headerCellStyle);
+                contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
+                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 2, 2));
                 cellHeader = rowHeader.createCell(cellIndex += 1);
                 cellHeader.setCellValue("Tổng số lượng: "+r.getTotal());
                 cellHeader.setCellStyle(headerCellStyle);
+                contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
+                rowIndex += 1;
 
                 sheet.setColumnWidth(0, 7500);
                 sheet.setColumnWidth(1, 7500);
@@ -380,19 +382,19 @@ public class ProductHistoryServiceImpl implements ProductHistoryService {
                 sheet.setColumnWidth(5, 7500);
                 sheet.setColumnWidth(6, 7500);
                 sheet.setColumnWidth(7, 7500);
-
-                response.setContentType("application/vnd.ms-excel");
-                response.setHeader("Expires", "0");
-                response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-                response.setHeader("Pragma", "public");
-                response.setHeader("Content-Disposition", "attachment; filename=ReportsData.xls");
-                ServletOutputStream out = response.getOutputStream();
-                workbook.write(out);
-                out.flush();
-                out.close();
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+        }
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Expires", "0");
+            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+            response.setHeader("Pragma", "public");
+            response.setHeader("Content-Disposition", "attachment; filename=ReportsData.xls");
+            ServletOutputStream out = response.getOutputStream();
+            workbook.write(out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return workbook;
     }

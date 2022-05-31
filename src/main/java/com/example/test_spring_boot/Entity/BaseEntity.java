@@ -29,11 +29,13 @@ public abstract class BaseEntity {
     @PrePersist
     public void prePersist(){
         String createBy ="unknowUser";
+
+        try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailCustom userDetailsCustom = (UserDetailCustom) authentication.getPrincipal();
             createBy = userDetailsCustom.getUsername();
-
-        if (userDetailsCustom.getUsername() == null){
+        }catch (Exception ex){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             authentication = SecurityContextHolder.getContext().getAuthentication();
             CustomOauth2User oAuth2User = (CustomOauth2User) authentication.getPrincipal();
             createBy = oAuth2User.getName();
@@ -46,15 +48,16 @@ public abstract class BaseEntity {
     @PreUpdate
     public void preUpdate(){
         String modifyBy ="unknowUser";
+        try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             UserDetailCustom userDetailsCustom = (UserDetailCustom) authentication.getPrincipal();
             modifyBy = userDetailsCustom.getUsername();
-
-            if (userDetailsCustom.getUsername() == null){
-                 authentication = SecurityContextHolder.getContext().getAuthentication();
-                CustomOauth2User oAuth2User = (CustomOauth2User) authentication.getPrincipal();
-                modifyBy = oAuth2User.getName();
-            }
+        }catch (Exception ex){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            authentication = SecurityContextHolder.getContext().getAuthentication();
+            CustomOauth2User oAuth2User = (CustomOauth2User) authentication.getPrincipal();
+            modifyBy = oAuth2User.getName();
+        }
         this.ModifierBy = modifyBy;
         this.ModifierDate = new Date();
     }

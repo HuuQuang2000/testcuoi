@@ -2,18 +2,13 @@ package com.example.test_spring_boot.Controller;
 
 import com.example.test_spring_boot.Configuration.Oauth2.CustomOauth2User;
 import com.example.test_spring_boot.Configuration.Security.UserDetailCustom;
-import com.example.test_spring_boot.Dto.CartDto;
-import com.example.test_spring_boot.Dto.CategoryDto;
-import com.example.test_spring_boot.Dto.ProductDto;
+import com.example.test_spring_boot.Dto.*;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Entity.ProductEntity;
 import com.example.test_spring_boot.Entity.ProductHistory;
 import com.example.test_spring_boot.Entity.UserEntity;
 import com.example.test_spring_boot.Repository.*;
-import com.example.test_spring_boot.Service.CategoryService;
-import com.example.test_spring_boot.Service.MailService;
-import com.example.test_spring_boot.Service.ProductHistoryService;
-import com.example.test_spring_boot.Service.ProductService;
+import com.example.test_spring_boot.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -60,6 +55,8 @@ public class ProductController {
     ProductHistoryService productHistoryService;
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    ReceiptService receiptService;
 
 
     @Secured({"ROLE_ADMIN"})
@@ -227,7 +224,8 @@ public class ProductController {
         List<ProductDto> lstProductDto = productService.getProductByCartDto(lstCart);
         model.addAttribute("lstProduct",lstProductDto);
         Double sumPrice = lstProductDto.stream().mapToDouble(o -> o.getPrice()).sum();
-        model.addAttribute("sumPrice",sumPrice + 5D);
+        model.addAttribute("receiptDto",new ReceiptDto());
+        model.addAttribute("sumPrice",sumPrice + 30000);
         return "view_user/cart";
     }
     @GetMapping("/product_detail_user/{id}")
@@ -253,8 +251,8 @@ public class ProductController {
         model.addAttribute("nameUser", uzxc);
         return "view_user/productDetail";
     }
-    @GetMapping("/pay")
-    public String pay(HttpServletRequest request, Model model){
+    @PostMapping("/pay")
+    public String pay(HttpServletRequest request, Model model, ReceiptDto receiptDto) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication.getPrincipal().toString() == "anonymousUser")
             return "payError";
@@ -274,9 +272,10 @@ public class ProductController {
                     email = oAuth2User.getAttribute("email");
                 }
             }
-            UserEntity userEntity = userRepository.getByUsername(userDetailsCustom.getUsername());
+            UserEntity userEntity = userRepository.getByUsername(email);
             mailService.sendMail(userEntity.getEmail(), "Thanh toán thành công!!!",null,null,null,lstCart);
             List<Long> lstLong = new ArrayList<>();
+            List<ProductHistoryDto> productHistoryDtos = new ArrayList<>();
             ProductHistory productHistory = null;
             for (CartDto cartDto : lstCart){
                 ProductEntity p = productRepository.getById(cartDto.getIdProduct());
@@ -284,9 +283,13 @@ public class ProductController {
                 productHistory.setUserEntity(userEntity);
                 productHistory.setProductEntity(p);
                 productHistory.setTotalItem(cartDto.getTotalItem());
-                productHistoryRepostiory.save(productHistory);
                 lstLong.add(cartDto.getIdProduct());
+                productHistoryDtos.add(new ProductHistoryDto(productHistory));
             }
+            receiptDto.setListProductDTO(productHistoryDtos);
+            receiptDto.setPriceShip(30000d);
+            receiptDto.setStatus(1);
+            ReceiptDto receiptDto1 = receiptService.createOrUpdate(receiptDto);
             model.addAttribute("idProducts", lstLong);
             session.setAttribute("cart", null);
             return "paySuccess";

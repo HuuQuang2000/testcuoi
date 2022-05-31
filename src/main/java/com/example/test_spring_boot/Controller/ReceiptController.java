@@ -6,9 +6,11 @@ import com.example.test_spring_boot.Dto.ReceiptDto;
 import com.example.test_spring_boot.Dto.SearchDto.ResultDTO;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Repository.CategoryRepository;
+import com.example.test_spring_boot.Service.ReceiptService;
 import com.example.test_spring_boot.Service.ServiceImpl.ProductHistoryServiceImpl;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +28,11 @@ public class ReceiptController {
     ProductHistoryServiceImpl productHistoryService;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    ReceiptService receiptService;
     @PostMapping("/search_report_product")
     public ResponseEntity<?> searchPageReceipt(SearchReportDto searchReportDto, HttpServletResponse response){
-        ResultDTO resultDTO = productHistoryService.searchReceipDto(searchReportDto,response);
+        Page<ReceiptDto> resultDTO = receiptService.searchByDto(searchReportDto);
         return ResponseEntity.ok(resultDTO);
     }
     @GetMapping("/index")
@@ -37,11 +41,19 @@ public class ReceiptController {
         model.addAttribute("categories",lstCategory);
         return "view_admin/report/Receipt-view";
     }
-
     @PostMapping("/export_report_by_search")
     public Workbook exportBySearchReport(Model model, SearchReportDto searchReportDto, HttpServletResponse response){
-        ResultDTO resultDTO = productHistoryService.searchReceipDto(searchReportDto,response);
-        return productHistoryService.exportBySearchDto(resultDTO.getReceiptDtos(), response);
+       List<ReceiptDto> resultDTO = receiptService.searchPageByDto(searchReportDto);
+        return productHistoryService.exportBySearchDto(resultDTO, response);
     }
 
+    @PostMapping("/detail")
+    public String detail(Model model, ReceiptDto receiptDto){
+        ReceiptDto r = receiptService.findById(receiptDto.getId());
+        List<CategoryDto> lstCategory = categoryRepository.getAllDto();
+        model.addAttribute("receipt",r);
+        model.addAttribute("categories",lstCategory);
+
+        return "view_admin/report/detail-view";
+    }
 }

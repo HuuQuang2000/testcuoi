@@ -20,9 +20,9 @@ public class ReceiptEntity extends BaseEntity{
     private Long id;
     private String phoneNumber;
     private String address;
-    private Long priceShip;
+    private Double priceShip;
     private Integer status;
+    private String name;
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<ProductHistory> ProductHistorys;
-
 }

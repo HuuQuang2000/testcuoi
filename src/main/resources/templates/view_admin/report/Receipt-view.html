@@ -113,8 +113,6 @@
     var fromDate;
     var toDate;
     var textSearch;
-    var nameUser;
-    var timeCreate;
     $("#report_view").addClass("active bg-gradient-primary");
 
     document.getElementById("btnFrom").addEventListener('click',function (e){
@@ -124,7 +122,6 @@
         textSearch = document.getElementById("fullname_c").value;
         onChangeValue();
     })
-
     function onChangeValue() {
         var bodyData = {
             categoryId : null,
@@ -134,9 +131,7 @@
             pageIndex : null,
             pageSize : null,
             textSearch: null,
-            export : null,
-            userName : null,
-            timeCreate : null
+            export : null
         };
         bodyData.categoryId = $("#categoryId").val();
         bodyData.rating =$("#rating").val();
@@ -145,8 +140,6 @@
         bodyData.toDate = toDate;
         bodyData.export = exportFile;
         bodyData.textSearch = textSearch;
-        bodyData.timeCreate = timeCreate;
-        bodyData.nameUser = nameUser;
         $.ajax({
             url: '/receipt/search_report_product',
             type: 'POST',
@@ -154,18 +147,19 @@
             success: function (result) {
                 console.log(result);
                 $("#tbodzy").empty();
-                result.receiptDtos.map(p =>
+                result.content.map(p =>
                     $('#tbodzy').append(`
                          <tr>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.name}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.createTime}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.total}</th>
+
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.priceShip}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.price}</th>
                             <th>
                                     <div class="d-flex">
-                                        <form style="margin-left: 10px" onsubmit="event.preventDefault()">
-                                            <input type="hidden" id="username" value="${p.nameProduct}">
-                                            <input type="hidden" id="timeCreate" value="${p.createTime}">
+                                        <form style="margin-left: 10px" method="post" action="/receipt/detail">
+                                            <input type="hidden" id="username"  name ="id" value="${p.id}" >
                                             <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">Detail</i>Detail</button>
                                         </form>
                                     </div>
@@ -186,7 +180,7 @@
                                   </button>
                                 </li>
                 `);
-                for(var i=1;i <= result.totalPage; i++){
+                for(var i=1;i <= result.totalPages; i++){
                     if(i == result.number + 1){
                         $("#pagination_z").append(`
                           <li class="page-item active">
@@ -217,88 +211,88 @@
                 `);
 
                 console.log(result);
-                if(result.receiptDto != null){
-                    $("#tbodydetail").empty();
-                    result.receiptDto.listProductDTO.map(p =>
-                        $('#tbodydetail').append(`
-                         <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div>
-                                            <img src="/upload/${p.image}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">${p.nameProduct}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">${p.totalItem}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                 <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">${p.price}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                 <td>
-                                    <div class="d-flex px-2 py-1 pl-5 ">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">${p.totalItem * p.price}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            `)
-
-                    );
-                    $("#ResultDTO").empty();
-                        $('#ResultDTO').append(`
-
-                            <tr>
-
-                                 <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">${result.receiptDto.name}</h6>
-                                        </div>
-                                    </div>
-</td>
-                                 <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">${result.receiptDto.total}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                 <td>
-                                    <div class="d-flex px-2 py-1 pl-5">
-                                        <div class="d-flex flex-column justify-content-center" >
-                                            <h6 class="mb-0 text-sm">${result.receiptDto.price}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-
-
-                            </tr>
-                            `)
-
-
-                    $(document).ready(function (){
-                        $('#btnDetail').click();
-                    })
-                    result.receiptDto = null;
-                }
+//                 if(result.receiptDto != null){
+//                     $("#tbodydetail").empty();
+//                     result.receiptDto.listProductDTO.map(p =>
+//                         $('#tbodydetail').append(`
+//                          <tr>
+//                                 <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div>
+//                                             <img src="/upload/${p.image}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//                                 <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div class="d-flex flex-column justify-content-center">
+//                                             <h6 class="mb-0 text-sm">${p.nameProduct}</h6>
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//                                 <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div class="d-flex flex-column justify-content-center">
+//                                             <h6 class="mb-0 text-sm">${p.totalItem}</h6>
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//                                  <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div class="d-flex flex-column justify-content-center">
+//                                             <h6 class="mb-0 text-sm">${p.price}</h6>
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//                                  <td>
+//                                     <div class="d-flex px-2 py-1 pl-5 ">
+//                                         <div class="d-flex flex-column justify-content-center">
+//                                             <h6 class="mb-0 text-sm">${p.totalItem * p.price}</h6>
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//
+//                             </tr>
+//                             `)
+//
+//                     );
+//                     $("#ResultDTO").empty();
+//                         $('#ResultDTO').append(`
+//
+//                             <tr>
+//
+//                                  <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div class="d-flex flex-column justify-content-center">
+//                                             <h6 class="mb-0 text-sm">${result.receiptDto.name}</h6>
+//                                         </div>
+//                                     </div>
+// </td>
+//                                  <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div class="d-flex flex-column justify-content-center">
+//                                             <h6 class="mb-0 text-sm">${result.receiptDto.total}</h6>
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//                                  <td>
+//                                     <div class="d-flex px-2 py-1 pl-5">
+//                                         <div class="d-flex flex-column justify-content-center" >
+//                                             <h6 class="mb-0 text-sm">${result.receiptDto.price}</h6>
+//                                         </div>
+//                                     </div>
+//                                 </td>
+//
+//
+//                             </tr>
+//                             `)
+//
+//
+//                     $(document).ready(function (){
+//                         $('#btnDetail').click();
+//                     })
+//                     result.receiptDto = null;
+//                 }
             }
 
             ,
@@ -325,7 +319,7 @@
         bodyData.categoryId = $("#categoryId").val();
         bodyData.rating =$("#rating").val();
         bodyData.pageIndex =1;
-        bodyData.pageSize =99999;
+        bodyData.pageSize = 99999;
         bodyData.fromDate = fromDate;
         bodyData.toDate = toDate;
         bodyData.export = exportFile;
@@ -353,13 +347,13 @@
         });
         exportFile = null;
     }
-
-
-    function DetailReceipt() {
-        nameUser = document.getElementById("detailName");
-        timeCreate = document.getElementById("detailTimeCreate");
-        onChangeValue();
-    };
+    //
+    //
+    // function DetailReceipt() {
+    //     nameUser = document.getElementById("detailName");
+    //     timeCreate = document.getElementById("detailTimeCreate");
+    //     onChangeValue();
+    // };
 
 </script>
 <section th:replace="/view_admin/fragment/footer"></section>

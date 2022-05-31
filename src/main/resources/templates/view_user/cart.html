@@ -211,12 +211,42 @@
                 <div class="col">TOTAL PRICE</div>
                 <div class="col text-right" th:text="|&euro; ${sumPrice}|"></div>
             </div>
-           <form th:action="@{/product/pay}" method="GET">
-               <button type="submit"  class="btn">BUY</button>
-           </form>
+            <button type="submit"  class="btn" data-toggle="modal" data-target="#exampleModal">BUY</button>
         </div>
     </div>
-
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post" class="modal-content" th:action="@{/product/pay}" th:object="${receiptDto}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lưu mới hóa đơn </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label >Tên hóa đơn </label>
+                    <input type="text"  class="form-control" name ="name">
+                </div>
+                <div class="form-group">
+                    <label >Số điện thoại </label>
+                    <input type="text"  class="form-control" name ="phoneNumber">
+                </div>
+                <div class="form-group">
+                    <label >Địa chỉ </label>
+                    <input type="text"  class="form-control" name ="address">
+                </div>
+                <div class="form-group">
+                    <label >phí ship : 30000</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
 </div>
 <script>
 
