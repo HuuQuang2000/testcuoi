@@ -12,7 +12,7 @@ public class MappingFolder implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/**").addResourceLocations("file:"+ UPLOAD_FILE);
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:"+ UPLOAD_FILE);
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 }

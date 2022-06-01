@@ -27,6 +27,8 @@ public class ProductEntity extends BaseEntity{
     @Column(name = "content")
     private String content;
 
+    private Long total;
+
     @Column(name = "image")
     private String image;
 

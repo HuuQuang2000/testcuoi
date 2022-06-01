@@ -24,5 +24,6 @@ public interface ReceiptService{
     List<ReceiptDto> searchPageByDto(SearchReportDto searchReportDto);
     boolean deleteById(Long id);
      ReceiptDto findById(Long id);
+     Integer changStatus(Long id,Integer status) throws IOException;
 
 }

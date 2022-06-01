@@ -288,7 +288,7 @@ public class ProductController {
             }
             receiptDto.setListProductDTO(productHistoryDtos);
             receiptDto.setPriceShip(30000d);
-            receiptDto.setStatus(1);
+            receiptDto.setStatus(2);
             ReceiptDto receiptDto1 = receiptService.createOrUpdate(receiptDto);
             model.addAttribute("idProducts", lstLong);
             session.setAttribute("cart", null);

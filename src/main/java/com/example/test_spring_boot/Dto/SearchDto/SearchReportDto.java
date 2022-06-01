@@ -26,4 +26,5 @@ public class SearchReportDto {
     private String export;
     private String nameUser;
     private String timeCreate;
+    private Integer status;
 }

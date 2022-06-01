@@ -23,6 +23,7 @@ public class ReceiptDto {
     private int total;
     private String name;
     private String createTime;
+    private String fullname;
     private Long id;
     private String phoneNumber;
     private String address;
@@ -34,8 +35,13 @@ public class ReceiptDto {
         this.phoneNumber = receiptEntity.getPhoneNumber();
         this.address = receiptEntity.getAddress();
         this.status = receiptEntity.getStatus();
-        this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getCreateDate());
+        if(receiptEntity.getCreateDate() != null){
+            this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getCreateDate());
+        }else {
+            this.createTime =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getModifierDate());
+        }
         this.listProductDTO = receiptEntity.getProductHistorys().stream().map(x -> new ProductHistoryDto(x)).collect(Collectors.toList());
+        this.fullname = receiptEntity.getProductHistorys().get(0).getUserEntity().getFullname();
         this.priceShip = receiptEntity.getPriceShip();
         this.price = receiptEntity.getPriceShip();
         this.total = 0;

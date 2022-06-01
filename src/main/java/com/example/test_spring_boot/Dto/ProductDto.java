@@ -26,9 +26,11 @@ public class ProductDto {
     private String content;
     private Integer totalItem;
     private ReviewDto reviewDto;
+    private Long total;
 
     public ProductDto(ProductEntity productEntity){
         if(productEntity != null){
+            this.total = productEntity.getTotal();
             if(productEntity.getId() != null)
                 this.id = productEntity.getId();
             if(productEntity.getName() != null)

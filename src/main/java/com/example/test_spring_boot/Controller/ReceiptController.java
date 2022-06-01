@@ -15,10 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -35,11 +37,19 @@ public class ReceiptController {
         Page<ReceiptDto> resultDTO = receiptService.searchByDto(searchReportDto);
         return ResponseEntity.ok(resultDTO);
     }
-    @GetMapping("/index")
-    public String home(Model model){
+    @GetMapping("/status/{id}")
+    public String home(Model model, @PathVariable("id") Long id){
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         model.addAttribute("categories",lstCategory);
-        return "view_admin/report/Receipt-view";
+        String url = "view_admin/report/Receipt-susscess-view";
+        if(id == 3){
+            url = "view_admin/report/Receipt-pending-ship-view";
+        }else if(id==4){
+            url = "view_admin/report/Receipt-pending-pay-view";
+        }else if (id==2){
+            url="view_admin/report/Receipt-pending-confirm-view";
+        }
+        return url;
     }
     @PostMapping("/export_report_by_search")
     public Workbook exportBySearchReport(Model model, SearchReportDto searchReportDto, HttpServletResponse response){
@@ -53,7 +63,16 @@ public class ReceiptController {
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         model.addAttribute("receipt",r);
         model.addAttribute("categories",lstCategory);
-
         return "view_admin/report/detail-view";
+    }
+    @PostMapping("/delete")
+    public String deleteById(Model model, ReceiptDto receiptDto){
+        receiptService.deleteById(receiptDto.getId());
+        return "redirect:/receipt/status/"+receiptService.findById(receiptDto.getId()).getStatus();
+    }
+    @PostMapping("/ship")
+    public String ship(Model model, ReceiptDto receiptDto) throws IOException {
+        receiptService.changStatus(receiptDto.getId(), 3);
+        return "redirect:/receipt/status/3";
     }
 }

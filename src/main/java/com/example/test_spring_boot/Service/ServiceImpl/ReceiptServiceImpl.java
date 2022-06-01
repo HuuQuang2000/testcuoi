@@ -3,6 +3,7 @@ package com.example.test_spring_boot.Service.ServiceImpl;
 import com.example.test_spring_boot.Dto.ProductHistoryDto;
 import com.example.test_spring_boot.Dto.ReceiptDto;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
+import com.example.test_spring_boot.Entity.ProductEntity;
 import com.example.test_spring_boot.Entity.ProductHistory;
 import com.example.test_spring_boot.Entity.ReceiptEntity;
 import com.example.test_spring_boot.Repository.ProductRepository;
@@ -42,6 +43,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public ReceiptDto createOrUpdate(ReceiptDto receiptDto) throws IOException {
+
         ReceiptEntity receiptEntity = new ReceiptEntity();
         receiptEntity.setId(receiptDto.getId());
         receiptEntity.setAddress(receiptDto.getAddress());
@@ -91,13 +93,13 @@ public class ReceiptServiceImpl implements ReceiptService {
             try {
                 fromDate = formatter6.parse(searchReportDto.getFromDate().replace("T", " "));
                 toDate = formatter6.parse(searchReportDto.getToDate().replace("T", " "));
-                list = receiptRepository.pageSearchByAll(textSearch,fromDate , toDate , pageable).map(x-> new ReceiptDto(x));
+                list = receiptRepository.pageSearchByAll(textSearch,fromDate , toDate ,searchReportDto.getStatus(), pageable).map(x-> new ReceiptDto(x));
             } catch (ParseException e) {
-                list = receiptRepository.pageSearchByTextSearch(textSearch,pageable).map(x-> new ReceiptDto(x));
+                list = receiptRepository.pageSearchByTextSearch(textSearch,searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
             }
 
         }else {
-            list = receiptRepository.pageSearch(pageable).map(x-> new ReceiptDto(x));
+            list = receiptRepository.pageSearch(searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
         }
 
         return list;
@@ -279,7 +281,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public List<ReceiptDto> searchPageByDto(SearchReportDto searchReportDto) {
-        List<ReceiptDto> list;
+        List<ReceiptDto> list = new ArrayList<>();
         if (searchReportDto.getTextSearch() != null && searchReportDto.getToDate() != null && searchReportDto.getFromDate() != null){
             Date fromDate;
             Date toDate;
@@ -288,21 +290,34 @@ public class ReceiptServiceImpl implements ReceiptService {
             try {
                 fromDate = formatter6.parse(searchReportDto.getFromDate().replace("T", " "));
                 toDate = formatter6.parse(searchReportDto.getToDate().replace("T", " "));
-                list = receiptRepository.listSearchByAll(searchReportDto.getTextSearch(),fromDate , toDate);
+                list = receiptRepository.listSearchByAll(searchReportDto.getTextSearch(),fromDate , toDate,searchReportDto.getStatus());
             } catch (ParseException e) {
-                list = receiptRepository.listSearchByName(searchReportDto.getTextSearch());
+                list = receiptRepository.listSearchByName(searchReportDto.getTextSearch(),searchReportDto.getStatus());
             }
 
         }else {
-            list = receiptRepository.getAll();
+            list = receiptRepository.getAllByStatus(searchReportDto.getStatus());
         }
         return list;
     }
 
     @Override
     public boolean deleteById(Long id){
-        return false;
+        try{
+            receiptRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
+    @Override
+     public Integer changStatus(Long id,Integer status) throws IOException {
+
+        ReceiptDto receiptDto = findById(id);
+        receiptDto.setStatus(status);
+        createOrUpdate(receiptDto);
+        return status;
+     }
 
     @Override
     public ReceiptDto findById(Long id) {

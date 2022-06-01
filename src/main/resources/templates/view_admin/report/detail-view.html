@@ -1,20 +1,28 @@
 <section th:replace="/view_admin/fragment/header"></section>
 
-<div style="margin-top: 27px !important;" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="position: relative">
-        <h6 class="text-white text-capitalize ps-3"> chi tiết sản phẩm</h6>
-    </div>
-</div>
+<!--<div style="margin-top: 27px !important;" class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">-->
+<!--    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="position: relative">-->
+<!--        <h6 class="text-white text-capitalize ps-3"> chi tiết đơn hàng </h6>-->
+<!--    </div>-->
+<!--</div>-->
 <button data-toggle="modal" data-target="#exampleModal" id="btnDetail" style="visibility: hidden"></button>
 <div class="container-fluid py-4">
     <div class="row ">
         <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="position: relative">
+                    <h6 class="text-white text-capitalize ps-3">đơn hàng</h6>
+
+                </div>
+            </div>
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
                         <tr>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên Hóa đơn </th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên Khách hàng </th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên số điện thoại </th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên địa chỉ </th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ngày mua</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số lượng mua</th>
@@ -31,6 +39,22 @@
                                     </div>
                                 </div>
                             </td>
+
+                            <td>
+                                <div class="d-flex px-2 py-1 pl-5">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm" th:text="${receipt.fullname} ? ${receipt.fullname} :  ${receipt.listProductDTO.get(0).username}"></h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex px-2 py-1 pl-5">
+                                    <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm" th:text="${receipt.phoneNumber}"></h6>
+                                    </div>
+                                </div>
+                            </td>
+
                             <td>
                                 <div class="d-flex px-2 py-1 pl-5">
                                     <div class="d-flex flex-column justify-content-center">
@@ -74,81 +98,72 @@
         </div>
     </div>
 </div>
-        <form method="post" class="modal-content" >
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Lưu mới sản phẩm</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-dialog" role="document">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ảnh</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tên sản phẩm</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giá</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số lượng</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tổng tiền</th>
-                            </tr>
-                            </thead>
-                            <tbody id="tbodydetail">
+<div class="container-fluid py-4">
+    <div class="row ">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="position: relative">
+                    <h6 class="text-white text-capitalize ps-3">thông tin chi tiết sản phẩm của đơn hàng</h6>
 
-                            </tbody>
-                            <thead>
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">image</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> số lượng</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">giá </th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">thành tiền </th>
-                            </tr>
-                            <tbody id="ResultDTO">
-                        <tr th:each="item : ${receipt.getListProductDTO()}">
-                            <td>
-                                <div class="d-flex px-2 py-1 pl-5">
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" th:text="${item.nameProduct}"></h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex px-2 py-1 pl-5">
-                                    <div>
-                                    <img th:src="|@{/upload/${p.image}}|" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                   </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex px-2 py-1 pl-5">
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm" th:text="${item.totalItem}"></h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex px-2 py-1 pl-5">
-                                    <div class="d-flex flex-column justify-content-center" >
-                                        <h6 class="mb-0 text-sm" th:text="${item.price}"></h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex px-2 py-1 pl-5">
-                                    <div class="d-flex flex-column justify-content-center" >
-                                        <h6 class="mb-0 text-sm" th:text="${item.price} * ${item.totalItem}"></h6>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
-        </form>
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">name</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">image</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> số lượng</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">giá </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">thành tiền </th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodydetail">
+                    <tr th:each="item : ${receipt.getListProductDTO()}">
+                        <td>
+                            <div class="d-flex px-2 py-1 pl-5">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-sm" th:text="${item.nameProduct}"></h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex px-2 py-1 pl-5">
+                                <div>
+                                    <img th:src="|@{/upload/}${item.image}|" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex px-2 py-1 pl-5">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-sm" th:text="${item.totalItem}"></h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex px-2 py-1 pl-5">
+                                <div class="d-flex flex-column justify-content-center" >
+                                    <h6 class="mb-0 text-sm" th:text="${item.price}"></h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex px-2 py-1 pl-5">
+                                <div class="d-flex flex-column justify-content-center" >
+                                    <h6 class="mb-0 text-sm" th:text="${item.price} * ${item.totalItem}"></h6>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script>
     </script>
     <section th:replace="/view_admin/fragment/footer"></section>

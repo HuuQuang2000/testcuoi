@@ -14,18 +14,21 @@ public interface ReceiptRepository extends JpaRepository<ReceiptEntity, Long> {
 
     @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r ")
     List<ReceiptDto> getAll();
-    @Query("select r from ReceiptEntity r where r.name like concat('%',?1,'%') and r.CreateDate > ?2 and r.CreateDate < ?3 ")
-    Page<ReceiptEntity> pageSearchByAll(String name ,Date fromDate,Date toDate ,  Pageable pageable);
-    @Query("select r from ReceiptEntity r where r.name like concat('%',?1,'%')")
-    Page<ReceiptEntity> pageSearchByTextSearch(String name ,Pageable pageable);
-    @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where r.name like concat('%',?1,'%')")
-    List<ReceiptDto> listSearchByName(String name);
+    @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where r.status = ?1")
+    List<ReceiptDto> getAllByStatus(Integer Status);
+    @Query("select r from ReceiptEntity r where r.name like concat('%',?1,'%') and r.CreateDate > ?2 and r.CreateDate < ?3 and r.status = ?4")
+    Page<ReceiptEntity> pageSearchByAll(String name ,Date fromDate,Date toDate ,Integer status,  Pageable pageable );
+    @Query("select r from ReceiptEntity r where r.name like concat('%',?1,'%') and  r.status = ?2" )
+    Page<ReceiptEntity> pageSearchByTextSearch(String name ,Integer status,Pageable pageable);
+    @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where r.name like concat('%',?1,'%') and  r.status = ?2")
+    List<ReceiptDto> listSearchByName(String name,Integer status);
 
-    @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where r.name like concat('%',?1,'%') and r.CreateDate > ?2 and r.CreateDate < ?3 ")
-    List<ReceiptDto> listSearchByAll(String name ,Date fromDate,Date toDate);
+    @Query("select r from ReceiptEntity r where r.name like concat('%',?1,'%') and r.CreateDate > ?2 and r.CreateDate < ?3 and r.status = ?4")
+    List<ReceiptDto> listSearchByAll(String name ,Date fromDate,Date toDate,Integer status);
 
-    @Query("select r from ReceiptEntity r")
-    Page<ReceiptEntity> pageSearch(Pageable pageable);
+    @Query("select r from ReceiptEntity r where r.status = ?1")
+    Page<ReceiptEntity> pageSearch(Integer status,Pageable pageable);
 
-
+    @Query("select r from ReceiptEntity r where r.id in ?1")
+    List<ReceiptEntity> getAllById(List<Long> id);
 }

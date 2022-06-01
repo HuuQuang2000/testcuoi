@@ -412,4 +412,9 @@ public class ProductServiceImpl implements ProductService {
         return page;
     }
 
+    @Override
+    public List<ProductEntity> findAllByListId(List<Long> id) {
+        return null;
+    }
+
 }
