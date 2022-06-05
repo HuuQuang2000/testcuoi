@@ -31,4 +31,9 @@ public interface ReceiptRepository extends JpaRepository<ReceiptEntity, Long> {
 
     @Query("select r from ReceiptEntity r where r.id in ?1")
     List<ReceiptEntity> getAllById(List<Long> id);
+
+    @Query("select r from ReceiptEntity r where r.CreateDate - ?1 < -3")
+    List<ReceiptEntity> getAllByTimeNow(Date timeNow);
+
+
 }

@@ -121,7 +121,15 @@
                                     <div class="d-flex">
                                         <form style="margin-left: 10px" method="post" action="/receipt/detail">
                                             <input type="hidden" id="username"  name ="id" value="${p.id}" >
-                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Detail</button>
+                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Chi Tiết</button>
+                                        </form>
+                                        <form style="margin-left: 10px" method="post" action="/receipt/pay">
+                                            <input type="hidden" id="username"  name ="id" value="${p.id}" >
+                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Thanh toán</button>
+                                        </form>
+                                          <form style="margin-left: 10px" method="post" action="/receipt/delete">
+                                            <input type="hidden" id="username"  name ="id" value="${p.id}" >
+                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Xóa</button>
                                         </form>
                                     </div>
                                 </th>
@@ -228,5 +236,25 @@
         });
         exportFile = null;
     }
+    function redirectPage(value){
+        pageIndex = value;
+        onChangeValue();
+    }
+    function prevPage(){
+        pageIndex = pageIndex - 1;
+        if(pageIndex == -1){
+            pageIndex = totalPage -1;
+        }
+        onChangeValue();
+    }
+    function nextPage(){
+        pageIndex = pageIndex + 1;
+        if(pageIndex == totalPage){
+            pageIndex = 0;
+        }
+        onChangeValue();
+    }
+    var pageIndex = 1;
+    var totalPage = 0;
 </script>
 <section th:replace="/view_admin/fragment/footer"></section>

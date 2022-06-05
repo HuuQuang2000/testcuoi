@@ -74,6 +74,7 @@
     var fromDate;
     var toDate;
     var textSearch;
+
     $("#report_view").addClass("active bg-gradient-primary");
 
     document.getElementById("btnFrom").addEventListener('click',function (e){
@@ -230,5 +231,28 @@
         });
         exportFile = null;
     }
+    function redirectPage(value){
+        pageIndex = value;
+        onChangeValue();
+    }
+    function prevPage(){
+        pageIndex = pageIndex - 1;
+        if(pageIndex == -1){
+            pageIndex = totalPage -1;
+        }
+        onChangeValue();
+    }
+    function nextPage(){
+        pageIndex = pageIndex + 1;
+        if(pageIndex == totalPage){
+            pageIndex = 0;
+        }
+        onChangeValue();
+    }
+    var pageIndex = 1;
+    var totalPage = 0;
+    $(document).ready(function (){
+        onChangeValue();
+    })
 </script>
 <section th:replace="/view_admin/fragment/footer"></section>

@@ -38,7 +38,9 @@ public class ReceiptDto {
         if(receiptEntity.getCreateDate() != null){
             this.createTime = new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getCreateDate());
         }else {
-            this.createTime =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getModifierDate());
+            if(receiptEntity.getModifierDate() != null){
+                this.createTime =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getModifierDate());
+            }
         }
         this.listProductDTO = receiptEntity.getProductHistorys().stream().map(x -> new ProductHistoryDto(x)).collect(Collectors.toList());
         this.fullname = receiptEntity.getProductHistorys().get(0).getUserEntity().getFullname();

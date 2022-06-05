@@ -165,5 +165,25 @@
             }
         });
     }
+    function redirectPage(value){
+        pageIndex = value;
+        onChangeValue();
+    }
+    function prevPage(){
+        pageIndex = pageIndex - 1;
+        if(pageIndex == -1){
+            pageIndex = totalPage -1;
+        }
+        onChangeValue();
+    }
+    function nextPage(){
+        pageIndex = pageIndex + 1;
+        if(pageIndex == totalPage){
+            pageIndex = 0;
+        }
+        onChangeValue();
+    }
+    var pageIndex = 1;
+    var totalPage = 0;
 </script>
 <section th:replace="/view_admin/fragment/footer"></section>

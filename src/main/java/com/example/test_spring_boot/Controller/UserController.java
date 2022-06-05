@@ -1,6 +1,8 @@
 package com.example.test_spring_boot.Controller;
 
+import com.example.test_spring_boot.Dto.CategoryDto;
 import com.example.test_spring_boot.Dto.UserDto;
+import com.example.test_spring_boot.Repository.CategoryRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
 import com.example.test_spring_boot.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class UserController {
     UserService userService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/manager_user")
@@ -38,13 +42,17 @@ public class UserController {
         HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
+        List<CategoryDto> lstCategory = categoryRepository.getAllDto();
+        model.addAttribute("categories",lstCategory);
         return "view_admin/user/index";
     }
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/create_update_user")
-    public String registerAccount(UserDto userDto){
+    public String registerAccount(UserDto userDto ,Model model){
         userDto = userService.updateAcc(userDto, bCryptPasswordEncoder);
+        List<CategoryDto> lstCategory = categoryRepository.getAllDto();
+        model.addAttribute("categories",lstCategory);
         return "redirect:/user/manager_user";
     }
 
@@ -55,13 +63,17 @@ public class UserController {
         HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
+        List<CategoryDto> lstCategory = categoryRepository.getAllDto();
+        model.addAttribute("categories",lstCategory);
         return "view_admin/user/user_detail";
     }
 
     @GetMapping("/remove_user/{id}")
     @Secured({"ROLE_ADMIN"})
     public String removeUser(@PathVariable("id") Long id){
+        List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         userRepository.deleteById(id);
         return "redirect:/user/manager_user";
     }
+
 }

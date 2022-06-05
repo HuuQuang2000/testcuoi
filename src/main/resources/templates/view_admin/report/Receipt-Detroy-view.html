@@ -28,11 +28,10 @@
         </div>
     </div>
     <button style="position: relative; left: 70px ; top: 45px" class="btn btn-primary" id="btnFrom">Tìm kiếm</button>
-
 </form>
 <div class="row ml-5 mr-5">
     <div class="form-group col-md-3 offset-md-9" style="align-self: center; text-align: right;">
-        <button class="btn btn-warning" onclick="exportFileExcel()">Xuất excel</button>
+        <button  class="btn btn-warning" onclick="exportFileExcel()">Xuất excel</button>
     </div>
 </div>
 <button data-toggle="modal" data-target="#exampleModal" id="btnDetail" style="visibility: hidden"></button>
@@ -58,7 +57,10 @@
                     </table>
                 </div>
             </div>
-            <nav aria-label="..." style="position: relative">
+            <nav aria-label="
+
+
+            ..." style="position: relative">
                 <ul class="pagination" style="position: absolute;
                         right: 44%;
                         padding: 20px;" id ="pagination_z">
@@ -100,7 +102,7 @@
         bodyData.toDate = toDate;
         bodyData.export = exportFile;
         bodyData.textSearch = textSearch;
-        bodyData.status = 2;
+        bodyData.status = 5;
         $.ajax({
             url: '/receipt/search_report_product',
             type: 'POST',
@@ -116,20 +118,12 @@
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.total}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.priceShip}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">${p.price}</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">chờ xác nhận</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Susscess</th>
                             <th>
                                     <div class="d-flex">
                                         <form style="margin-left: 10px" method="post" action="/receipt/detail">
                                             <input type="hidden" id="username"  name ="id" value="${p.id}" >
-                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Chi tiết</button>
-                                        </form>
-                                        <form style="margin-left: 10px" method="post" action="/receipt/delete">
-                                            <input type="hidden" id="username"  name ="id" value="${p.id}" >
-                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Xóa</button>
-                                        </form>
-                                         <form style="margin-left: 10px" method="post" action="/receipt/ship">
-                                            <input type="hidden" id="username"  name ="id" value="${p.id}" >
-                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Giao hàng</button>
+                                            <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Detail</button>
                                         </form>
                                     </div>
                                 </th>
@@ -164,7 +158,6 @@
                              </li>
                     `);
                     }
-
                 }
                 $("#pagination_z").append(`
                     <li class="page-item">
@@ -212,7 +205,7 @@
         bodyData.toDate = toDate;
         bodyData.export = exportFile;
         bodyData.textSearch = textSearch;
-        bodyData.status = 2;
+        bodyData.status = 1;
         $.ajax({
             url: '/receipt/export_report_by_search',
             type: 'POST',

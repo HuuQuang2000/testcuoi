@@ -304,21 +304,26 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a th:if="${nameUser == null}" class="nav-link" th:href="@{/login}"><span class="fa fa-user-o"></span><span class="text">Login</span></a>
+                <a th:if="${nameUser} == null" class="nav-link" th:href="@{/login}"><span class="fa fa-user-o"></span><span class="text">Login</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/product/cart}"><span class="fa fa-shopping-cart"></span><span class="text">Cart</span></a>
             </li>
             <li class="nav-item">
-                <span style="position: absolute; right: -50%;top: 20%" th:text="|Xin chào: ${nameUser}|" th:if="${nameUser} != null"></span>
+                <a class="nav-link" th:if="${nameUser} != null" th:href="|@{/receipt/user}?username=${nameUser}|"><i class="fa fa-cc-visa" aria-hidden="true"></i><span class="text"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:if="${nameUser} != null" th:href="|@{/user/profile}?username=${nameUser}|"><i class="fa fa-user" aria-hidden="true"></i><span class="text"></span></a>
+            </li>
+            <li class="nav-item">
+                <span style="position: absolute; right: -20%;top: 20%" th:text="|Xin chào: ${nameUser}|" th:if="${nameUser} != null"></span>
             </li>
             <li class="nav-item" th:if="${nameUser} != null">
                 <a th:href="@{/logout}" class="nav-link text-body font-weight-bold px-0 d-flex">
-                    <span style="position: absolute; right: -75%" class="d-sm-inline d-none">Đăng xuất</span>
+                    <span style="position: absolute; right: -40%" class="d-sm-inline d-none">Đăng xuất</span>
                 </a>
             </li>
         </ul>
-
     </div>
 </nav>
 

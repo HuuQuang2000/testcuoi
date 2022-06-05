@@ -72,23 +72,26 @@ public class ReviewServiceImpl implements ReviewService {
             postEntity.setReviewEntity(p.getReviewEntity());
             postRepository.save(postEntity);
         }
-        if(!roleA.equals("anonymousUser")){
-            UserDetailCustom ud =(UserDetailCustom) authentication.getPrincipal();
-            ProductEntity p = productRepository.getById(reivewUserDto.getIdProduct());
-            ReviewEntity reviewEntity = p.getReviewEntity();
-            if(reviewEntity == null){
-                reviewEntity = new ReviewEntity();
-                reviewEntity.setRating(0);
-                p.setReviewEntity(reviewEntity);
-                p = productRepository.save(p);
+        try{
+            if(!roleA.equals("anonymousUser")){
+                UserDetailCustom ud =(UserDetailCustom) authentication.getPrincipal();
+                ProductEntity p = productRepository.getById(reivewUserDto.getIdProduct());
+                ReviewEntity reviewEntity = p.getReviewEntity();
+                if(reviewEntity == null){
+                    reviewEntity = new ReviewEntity();
+                    reviewEntity.setRating(0);
+                    p.setReviewEntity(reviewEntity);
+                    p = productRepository.save(p);
+                }
+                UserEntity userEntity = userRepository.getByUsername(ud.getUsername());
+                PostEntity postEntity = new PostEntity();
+                postEntity.setContent(reivewUserDto.getContent());
+                postEntity.setUserEntity(userEntity);
+                postEntity.setReviewEntity(p.getReviewEntity());
+                postRepository.save(postEntity);
             }
-            UserEntity userEntity = userRepository.getByUsername(ud.getUsername());
-
-            PostEntity postEntity = new PostEntity();
-            postEntity.setContent(reivewUserDto.getContent());
-            postEntity.setUserEntity(userEntity);
-            postEntity.setReviewEntity(p.getReviewEntity());
-            postRepository.save(postEntity);
+        }catch (Exception e){
+            System.out.printf("lỗi lòis");
         }
     }
 }

@@ -320,6 +320,22 @@ public class ReceiptServiceImpl implements ReceiptService {
      }
 
     @Override
+    public List<ReceiptEntity> getAllByTimeNow(Date date) {
+        List<ReceiptEntity> receiptEntities = receiptRepository.getAllByTimeNow(date);
+        return receiptEntities;
+    }
+
+    @Override
+    public void setActiveByTime() {
+        Date date = new Date();
+        List<ReceiptEntity> list = getAllByTimeNow(date);
+        for (ReceiptEntity r : list){
+            r.setStatus(4);
+        }
+        receiptRepository.saveAll(list);
+    }
+
+    @Override
     public ReceiptDto findById(Long id) {
         return new ReceiptDto(receiptRepository.findById(id).get());
     }
