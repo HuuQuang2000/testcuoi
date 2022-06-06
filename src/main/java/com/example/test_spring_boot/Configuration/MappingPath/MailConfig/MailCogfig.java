@@ -28,14 +28,12 @@ public class MailCogfig {
         javaMailSender.setPort(port);
         javaMailSender.setUsername(username);
         javaMailSender.setPassword(password);
-
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.transport.protocol", "smtp");
         javaMailProperties.put("mail.smtp.auth", auth);
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
         javaMailProperties.put("mail.debug", "false");
         javaMailProperties.put("mail.smtp.ssl.trust", "*");
-
         javaMailSender.setJavaMailProperties(javaMailProperties);
         return javaMailSender;
     }

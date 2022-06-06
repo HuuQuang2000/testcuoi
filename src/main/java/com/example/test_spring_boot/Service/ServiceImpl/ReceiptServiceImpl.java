@@ -331,8 +331,8 @@ public class ReceiptServiceImpl implements ReceiptService {
         List<ReceiptEntity> list = getAllByTimeNow(date);
         for (ReceiptEntity r : list){
             r.setStatus(4);
+            receiptRepository.save(r);
         }
-        receiptRepository.saveAll(list);
     }
 
     @Override

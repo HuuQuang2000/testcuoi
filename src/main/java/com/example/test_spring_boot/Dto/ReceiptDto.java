@@ -43,7 +43,9 @@ public class ReceiptDto {
             }
         }
         this.listProductDTO = receiptEntity.getProductHistorys().stream().map(x -> new ProductHistoryDto(x)).collect(Collectors.toList());
-        this.fullname = receiptEntity.getProductHistorys().get(0).getUserEntity().getFullname();
+        if(receiptEntity.getProductHistorys() != null && receiptEntity.getProductHistorys().get(0) != null){
+            this.fullname = receiptEntity.getProductHistorys().get(0).getUserEntity().getFullname();
+        }
         this.priceShip = receiptEntity.getPriceShip();
         this.price = receiptEntity.getPriceShip();
         this.total = 0;
