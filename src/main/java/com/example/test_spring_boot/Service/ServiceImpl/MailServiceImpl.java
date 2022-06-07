@@ -39,7 +39,6 @@ public class MailServiceImpl implements MailService {
     public void sendMail(String toAddress, String subject, Object model, String filePath, String content, List<CartDto> lstCart) {
         try{
             List<ProductDto> lstCartDto = productService.getProductByCartDto(lstCart);
-
             final Context ctx = new Context(LocaleContextHolder.getLocale());
             ctx.setVariable("lstCartDto", lstCartDto);
             final MimeMessage message = this.javaMailSender.createMimeMessage();
