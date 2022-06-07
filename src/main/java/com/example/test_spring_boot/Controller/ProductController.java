@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -226,6 +227,13 @@ public class ProductController {
         Double sumPrice = lstProductDto.stream().mapToDouble(o -> o.getPrice()).sum();
         model.addAttribute("receiptDto",new ReceiptDto());
         model.addAttribute("sumPrice",sumPrice + 30000);
+        Long total =0l;
+       if ( lstCart != null && !lstCart.isEmpty()){
+           for(CartDto p : lstCart){
+               total += p.getTotalItem();
+           }
+       }
+        model.addAttribute("sumtotal",total);
         return "view_user/cart";
     }
     @GetMapping("/product_detail_user/{id}")
@@ -294,5 +302,17 @@ public class ProductController {
             session.setAttribute("cart", null);
             return "paySuccess";
         }
+    }
+    @PostMapping("/removeCart")
+    public String removeCart(@ModelAttribute("CartDto") CartDto cartDto , HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        List<CartDto> lstCart= (List<CartDto>) session.getAttribute("cart");
+        for (int i =0 ; i < lstCart.size(); i++){
+            if(lstCart.get(i).getIdProduct() == cartDto.getIdProduct()){
+                lstCart.remove(lstCart.get(i));
+            }
+        }
+        session.setAttribute("cart",lstCart);
+        return "redirect:/product/cart";
     }
 }

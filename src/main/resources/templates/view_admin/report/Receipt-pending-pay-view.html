@@ -108,6 +108,8 @@
             success: function (result) {
                 console.log(result);
                 $("#tbodzy").empty();
+                pageIndex = result.number + 1;
+                totalPage = result.totalPages;
                 result.content.map(p =>
                     $('#tbodzy').append(`
                          <tr>
@@ -237,20 +239,22 @@
         exportFile = null;
     }
     function redirectPage(value){
-        pageIndex = value;
+        pageIndex = value ;
         onChangeValue();
     }
     function prevPage(){
-        pageIndex = pageIndex - 1;
-        if(pageIndex == -1){
-            pageIndex = totalPage -1;
+        if(pageIndex == 1){
+            pageIndex = totalPage
+        }else {
+            pageIndex = pageIndex - 1;
         }
         onChangeValue();
     }
     function nextPage(){
-        pageIndex = pageIndex + 1;
         if(pageIndex == totalPage){
-            pageIndex = 0;
+            pageIndex = 1
+        }else {
+            pageIndex = pageIndex + 1;
         }
         onChangeValue();
     }

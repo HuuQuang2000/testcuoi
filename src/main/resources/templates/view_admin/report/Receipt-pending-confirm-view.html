@@ -72,6 +72,8 @@
     var fromDate;
     var toDate;
     var textSearch;
+    var pageIndex = 1;
+    var totalPage = 0;
     $("#report_view").addClass("active bg-gradient-primary");
 
     document.getElementById("btnFrom").addEventListener('click',function (e){
@@ -91,11 +93,12 @@
             pageSize : null,
             textSearch: null,
             export : null,
-            status : null
+            status : null,
+            totalPage : null
         };
         bodyData.categoryId = $("#categoryId").val();
         bodyData.rating =$("#rating").val();
-        bodyData.pageIndex =1;
+        bodyData.pageIndex = pageIndex;
         bodyData.fromDate = fromDate;
         bodyData.toDate = toDate;
         bodyData.export = exportFile;
@@ -107,6 +110,8 @@
             data: bodyData,
             success: function (result) {
                 console.log(result);
+                pageIndex = result.number + 1;
+                totalPage = result.totalPages;
                 $("#tbodzy").empty();
                 result.content.map(p =>
                     $('#tbodzy').append(`
@@ -237,24 +242,25 @@
         exportFile = null;
     }
     function redirectPage(value){
-        pageIndex = value;
+        pageIndex = value ;
         onChangeValue();
     }
     function prevPage(){
-        pageIndex = pageIndex - 1;
-        if(pageIndex == -1){
-            pageIndex = totalPage -1;
+        if(pageIndex == 1){
+            pageIndex = totalPage
+        }else {
+            pageIndex = pageIndex - 1;
         }
         onChangeValue();
     }
     function nextPage(){
-        pageIndex = pageIndex + 1;
         if(pageIndex == totalPage){
-            pageIndex = 0;
+            pageIndex = 1
+        }else {
+            pageIndex = pageIndex + 1;
         }
         onChangeValue();
     }
-    var pageIndex = 1;
-    var totalPage = 0;
+
 </script>
 <section th:replace="/view_admin/fragment/footer"></section>
