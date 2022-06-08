@@ -23,7 +23,8 @@
             lstCategory: null,
             lstStar: null,
             textSearch : null,
-            sort : null
+            sort : null,
+            total : null,
         };
         bodyData.categoryId = $("#categoryId").val();
         bodyData.fromDate =$("#fromDate").val();
@@ -56,15 +57,9 @@
                                         <h5><b>${p.name}</b> </h5>
                                         <div class="d-flex flex-row my-2">
                                             <div class="text-muted">${p.price} VND</div>
-                                            <div class="ml-auto">
-                                                <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button>
-                                                <span class="px-sm-1">1 chiếc</span>
-                                                <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button>
-                                            </div>
                                         </div>
-                                        <div >
-                                            <button class="btn rounded my-2"value="${p.id}" onclick="add_toCart(this.value)">Add to cart</button>
-
+                                        <div>
+                                            <button class="btn rounded my-2" value="${p.id}" onclick="add_toCart(this.value)">Add to cart</button>
                                              <a href="/product/product_detail_user/${p.id}">
                                                <button class="btn  rounded my-2">xem chi tiết</button>
                                             </a>

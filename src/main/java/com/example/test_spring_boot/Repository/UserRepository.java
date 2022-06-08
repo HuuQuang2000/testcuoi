@@ -9,4 +9,9 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("select u from UserEntity u where u.username = ?1")
     UserEntity getByUsername(String username);
+    @Query("select u from UserEntity u where u.email like ?1")
+    UserEntity getByEmail(String email);
+
+    @Query("select u from UserEntity u where u.email like ?1 and u.token = ?2")
+    UserEntity getByEmailAndToken(String email,int token);
 }

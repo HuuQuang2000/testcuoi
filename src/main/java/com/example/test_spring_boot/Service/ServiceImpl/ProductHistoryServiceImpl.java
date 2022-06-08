@@ -1,5 +1,6 @@
 package com.example.test_spring_boot.Service.ServiceImpl;
 
+import com.example.test_spring_boot.Dto.CartDto;
 import com.example.test_spring_boot.Dto.ProductDto;
 import com.example.test_spring_boot.Dto.ProductHistoryDto;
 import com.example.test_spring_boot.Dto.ReceiptDto;
@@ -397,6 +398,11 @@ public class ProductHistoryServiceImpl implements ProductHistoryService {
             System.out.println(e);
         }
         return workbook;
+    }
+
+    @Override
+    public Page<ProductDto> getProductByCartDto(List<CartDto> lstCart, Pageable pageable) {
+        return null;
     }
 
 

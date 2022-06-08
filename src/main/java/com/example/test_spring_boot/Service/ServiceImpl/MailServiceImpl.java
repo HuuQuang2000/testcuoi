@@ -29,7 +29,7 @@ public class MailServiceImpl implements MailService {
     @Autowired
     ProductRepository productRepository;
 
-    @Value("${mail.smtp.username}")
+    @Value("${spring.mail.username}")
     String mailFrom;
 
     @Autowired
@@ -48,9 +48,7 @@ public class MailServiceImpl implements MailService {
             mimeMessageHelper.setSubject(subject);
             String templateHtml = templateEngine.process("MailTemplate", ctx);
             mimeMessageHelper.setText(templateHtml, true);
-
             this.javaMailSender.send(message);
-
         }
         catch (Exception e){
             System.out.println(e);
@@ -58,7 +56,22 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void resetPassWord(String from, String toAddress, String subject, Object model, String filePath, String content, String tokken) {
-
+    public void resetPassWord(String toAddress, String content, int tokken) {
+        try{
+            final Context ctx = new Context(LocaleContextHolder.getLocale());
+            ctx.setVariable("token", tokken);
+            ctx.setVariable("email", toAddress);
+            final MimeMessage message = this.javaMailSender.createMimeMessage();
+            final MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, "UTF-8");
+            mimeMessageHelper.setTo(toAddress);
+            mimeMessageHelper.setFrom(mailFrom);
+            mimeMessageHelper.setSubject("Thông báo đăng ký lại mật khẩu");
+            String templateHtml = templateEngine.process("mailResetPass", ctx);
+            mimeMessageHelper.setText(templateHtml, true);
+            this.javaMailSender.send(message);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
     }
 }

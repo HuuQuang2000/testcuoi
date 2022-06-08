@@ -5,6 +5,7 @@ import com.example.test_spring_boot.Entity.RoleEntity;
 import com.example.test_spring_boot.Entity.UserEntity;
 import com.example.test_spring_boot.Repository.RoleRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
+import com.example.test_spring_boot.Service.MailService;
 import com.example.test_spring_boot.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ public class LoginController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     UserService userService;
+    @Autowired
+    MailService mailService;
 
 //    @GetMapping("/add")
 //    public String addUser(){
@@ -55,13 +58,30 @@ public class LoginController {
     }
 
     @PostMapping("/register_account")
-    public ResponseEntity<?> registerAccount(UserDto userDto ){
+    public ResponseEntity<?> registerAccount(UserDto userDto){
         userDto = userService.registerAcc(userDto, bCryptPasswordEncoder);
         return ResponseEntity.ok(userDto);
     }
 
+    @PostMapping("/reset_account")
+    public ResponseEntity<?> resetAccount(UserDto userDto){
+        try{
+            UserEntity  userEntity = userRepository.getByEmail(userDto.getEmail());
+            int min = 1;
+            int max = 10000;
+            int range = max - min + 1;
+            int token = (int)(Math.random() * range);
+            userEntity.setToken(token);
+            userRepository.save(userEntity);
+            mailService.resetPassWord(userDto.getEmail(),null,token);
+            return ResponseEntity.ok(new UserDto(userEntity));
+        }catch (Exception e){
+            return ResponseEntity.ok(null);
+        }
+    }
+
     @GetMapping("/403")
     public String forbiedanView(){
-        return "403";
+        return "/403";
     }
 }

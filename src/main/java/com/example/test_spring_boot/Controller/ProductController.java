@@ -315,4 +315,45 @@ public class ProductController {
         session.setAttribute("cart",lstCart);
         return "redirect:/product/cart";
     }
+
+//    @PostMapping("/formEditCart")
+//    public String editCart(@ModelAttribute("CartDto") CartDto cartDto , HttpServletRequest request, Model model){
+//        HttpSession session = request.getSession();
+//        List<CartDto> lstCart= (List<CartDto>) session.getAttribute("cart");
+//        ProductHistory productHistory = new ProductHistory();
+//        for (int i =0 ; i < lstCart.size(); i++){
+//            if(lstCart.get(i).getIdProduct() == cartDto.getIdProduct()){
+//                productHistory = productHistoryRepostiory.getById(lstCart.get(i).getIdProduct());
+//                break;
+//            }
+//        }
+//        model.addAttribute("product",productHistory);
+//        return "";
+//    }
+
+    @PostMapping("/cartTotal")
+    public ResponseEntity<?> cartTotal(Model model, SearchReportDto searchReportDto , HttpServletRequest request) throws ParseException {
+        HttpSession session = request.getSession();
+        ResultDto resultDto = new ResultDto();
+
+        List<CartDto> lstCart= (List<CartDto>) session.getAttribute("cart");
+        List<ProductDto> lstProductDto = productService.getProductByCartDto(lstCart);
+        model.addAttribute("lstProduct",lstProductDto);
+        resultDto.setProductDtos(lstProductDto);
+
+        Double sumPrice = lstProductDto.stream().mapToDouble(o -> o.getPrice()).sum();
+        resultDto.setSumPrice(sumPrice);
+        model.addAttribute("receiptDto",new ReceiptDto());
+
+        model.addAttribute("sumPrice",sumPrice + 30000);
+        Long total =0l;
+        if ( lstCart != null && !lstCart.isEmpty()){
+            for(CartDto p : lstCart){
+                total += p.getTotalItem();
+            }
+        }
+        model.addAttribute("sumtotal",total);
+        resultDto.setSumtotal(total);
+        return ResponseEntity.ok(resultDto);
+    }
 }

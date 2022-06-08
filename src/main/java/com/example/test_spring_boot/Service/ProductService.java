@@ -20,4 +20,6 @@ public interface ProductService {
     List<ProductDto> getProductByCartDto(List<CartDto> lstCart);
     Page<ProductDto> searchPageByDto(SearchReportDto searchReportDto);
     List<ProductEntity> findAllByListId(List<Long> id);
+
+    Page<ProductDto> getProductByCartDto(List<CartDto> lstCart,Pageable pageable);
 }

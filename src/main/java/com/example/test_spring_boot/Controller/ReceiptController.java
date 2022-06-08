@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,7 @@ public class ReceiptController {
         return ResponseEntity.ok(resultDTO);
     }
     @GetMapping("/status/{id}")
+    @Secured({"ROLE_ADMIN"})
     public String home(Model model, @PathVariable("id") Long id,HttpServletRequest request){
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         model.addAttribute("categories",lstCategory);
@@ -69,6 +71,7 @@ public class ReceiptController {
     }
 
     @PostMapping("/detail")
+    @Secured({"ROLE_ADMIN"})
     public String detail(Model model, ReceiptDto receiptDto){
         ReceiptDto r = receiptService.findById(receiptDto.getId());
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
@@ -88,11 +91,13 @@ public class ReceiptController {
         return "view_user/receiptDetail";
     }
     @PostMapping("/delete")
+    @Secured({"ROLE_ADMIN"})
     public String deleteById(Model model, ReceiptDto receiptDto,HttpServletRequest request) throws IOException {
         receiptService.changStatus(receiptDto.getId(), 5);
         return "redirect:/receipt/status/"+receiptService.findById(receiptDto.getId()).getStatus();
     }
     @PostMapping("/ship")
+    @Secured({"ROLE_ADMIN"})
     public String ship(Model model, ReceiptDto receiptDto,HttpServletRequest request) throws IOException {
         receiptService.changStatus(receiptDto.getId(), 3);
         HttpSession session = request.getSession();
@@ -101,6 +106,7 @@ public class ReceiptController {
         return "redirect:/receipt/status/3";
     }
     @PostMapping("/pay")
+    @Secured({"ROLE_ADMIN"})
     public String pay(Model model, ReceiptDto receiptDto ,HttpServletRequest request) throws IOException {
         receiptService.changStatus(receiptDto.getId(), 1);
         HttpSession session = request.getSession();

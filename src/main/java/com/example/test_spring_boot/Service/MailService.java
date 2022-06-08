@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MailService {
     public void sendMail(String toAddress, String subject, Object model, String filePath, String content, List<CartDto> lstCart);
-    public void resetPassWord(String from, String toAddress, String subject, Object model, String filePath, String content,String tokken);
+    public void resetPassWord( String toAddress, String content,int tokken);
 }

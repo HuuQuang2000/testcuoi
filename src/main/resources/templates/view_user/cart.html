@@ -172,34 +172,35 @@
                     <div class="col align-self-center text-right text-muted" th:text="|Số Loại hàng ${lstProduct.size()}|"></div>
                 </div>
             </div>
-            <div class="row border-top border-bottom" th:each="item : ${lstProduct}">
-                <div class="row main align-items-center">
-                    <div class="col-2">
-                        <img class="img-fluid" th:src="|@{/uploads/}${item.getImage()}|">
-                    </div>
-                    <div class="col">
-                        <div class="row text-muted" th:text="${item.categoryName}"></div>
-                        <div class="row" th:text="${item.name}"></div>
-                    </div>
-                    <div class="col">
-                        <a href="#">-
-                        </a>
-                        <a href="#" class="border" th:text="${item.totalItem}">
-                        </a>
-                        <a href="#">+
-                        </a>
-                    </div>
-                    <div class="col" th:text="|${item.price} VND|"> <span class="close">&#10005;</span></div>
-                    <div class="col">
-                        <form method="post" th:action="@{/product/removeCart}">
-                            <input type="hidden" th:value="${item.id}" name="idProduct">
-                            <button type="submit">
-                                xóa
-                            </button>
-                        </form>
-                    </div>
-                </div>
+            <div id="cartTotal">
+
             </div>
+<!--            <div class="row border-top border-bottom" th:each="item : ${lstProduct}" >-->
+<!--                <div class="row main align-items-center">-->
+<!--                    <div class="col-2">-->
+<!--                        <img class="img-fluid" th:src="|@{/uploads/}${item.getImage()}|">-->
+<!--                    </div>-->
+<!--                    <div class="col">-->
+<!--                        <div class="row text-muted" th:text="${item.categoryName}"></div>-->
+<!--                        <div class="row" th:text="${item.name}"></div>-->
+<!--                    </div>-->
+<!--                    <div class="col">-->
+<!--                        <button th:onclick="|@{nextTotal(}${item.id})}|">-</button>-->
+<!--                        <a href="#"  th:id="${item.id}" th:text="${item.totalItem}">-->
+<!--                        </a>-->
+<!--                        <button th:onclick="|@{nextTotal(}${item.id})}|">+</button>-->
+<!--                    </div>-->
+<!--                    <div class="col" th:text="|${item.price} VND|"> <span class="close">&#10005;</span></div>-->
+<!--                    <div class="col">-->
+<!--                        <form method="post" th:action="@{/product/removeCart}">-->
+<!--                            <input type="hidden" th:value="${item.id}" name="idProduct">-->
+<!--                            <button type="submit">-->
+<!--                                xóa-->
+<!--                            </button>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="back-to-shop"><a th:href="@{/product/index_user}">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
         </div>
         <div class="col-md-4 summary">
@@ -273,7 +274,7 @@
             }
         });
     }
-
+    var total;
     function searchByDto(){
         var categoryLst = [];
         $('.categoryy:checkbox:checked').each(function () {
@@ -291,7 +292,8 @@
             pageIndex : null,
             pageSize : null,
             lstCategory: null,
-            lstStar: null
+            lstStar: null,
+            total: null,
         };
         bodyData.categoryId = $("#categoryId").val();
         bodyData.fromDate =$("#fromDate").val();
@@ -341,6 +343,81 @@
         });
 
     }
+
+
+    function editTotal(){
+        var categoryLst = [];
+        $('.categoryy:checkbox:checked').each(function () {
+            categoryLst.push($(this).val());
+        });
+        var starLst = [];
+        $('.star:checkbox:checked').each(function () {
+            starLst.push($(this).val());
+        });
+        var bodyData = {
+            categoryId : null,
+            fromDate : null,
+            toDate : null,
+            rating : null,
+            pageIndex : null,
+            pageSize : null,
+            lstCategory: null,
+            lstStar: null,
+            total: null,
+        };
+        bodyData.categoryId = $("#categoryId").val();
+        bodyData.fromDate =$("#fromDate").val();
+        bodyData.toDate =$("#toDate").val();
+        bodyData.rating =$("#rating").val();
+        bodyData.pageIndex =1;
+        bodyData.pageSize =10;
+        bodyData.lstCategory =categoryLst;
+        bodyData.lstStar =starLst;
+        $.ajax({
+            url: '/product/cartTotal',
+            type: 'POST',
+            data: bodyData,
+            success: function (result) {
+                console.log(result);
+                $("#cartTotal").empty();
+                result.productDtos.map(p =>
+                    $('#cartTotal').append(`
+                <div class="row border-top border-bottom" >
+                    <div class="row main align-items-center">
+                        <div class="col-2">
+                            <img class="img-fluid" src="/uploads/${p.image}">
+                        </div>
+                        <div class="col">
+                            <div class="row text-muted" >${p.categoryName}</div>
+                            <div class="row" >${p.name}</div>
+                        </div>
+                        <div class="col">
+                            <button onclick="prevTotal(${p.id})">-</button>
+                            <a href="#"> <input value="${p.totalItem}" id="${p.id}" style="border:none; width: 20px;   ">
+                            </a>
+                            <button onclick="nextTotal(${p.id})">+</button>
+                        </div>
+                        <div class="col" >${p.price} VND</div>
+                        <div class="col">
+                            <form method="post" action="/product/removeCart">
+                                <input type="hidden" value="${p.id}"  name="idProduct">
+                                <button type="submit">
+                                    xóa
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                            `)
+                );
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+
+    }
+
     function add_toCart(value){
         $.ajax({
             url: '/product/add_cart/'+value,
@@ -358,8 +435,23 @@
         });
     }
     $(document).ready(function (){
-
+        editTotal();
     })
+    function nextTotal(id){
+        var a = parseInt(document.getElementById(id).value);
+        a += 1
+        document.getElementById(id).value = a;
+    }
+
+    function prevTotal(id){
+        var a = parseInt(document.getElementById(id).value);
+        a -= 1;
+        if (a < 0 ){
+            a = 0;
+        }
+        document.getElementById(id).value = a;
+    }
+
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
