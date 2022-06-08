@@ -203,30 +203,30 @@
 <!--            </div>-->
             <div class="back-to-shop"><a th:href="@{/product/index_user}">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
         </div>
-        <div class="col-md-4 summary">
-            <div><h5><b>Đơn Đặt hàng</b></h5></div>
-            <hr>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Số loại hàng</div>
-                <div class="col text-right" th:text="|${lstProduct.size()}|"></div>
-            </div>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Số lượng hàng</div>
-                <div class="col text-right" th:text="|${sumtotal}|"></div>
-            </div>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Tổng giá </div>
-                <div class="col text-right" th:text="| ${sumPrice -30000} VND|"></div>
-            </div>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Phí ship</div>
-                <div class="col text-right" >30000 VND</div>
-            </div>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">Tổng tiền </div>
-                <div class="col text-right" th:text="|${sumPrice} VND|"></div>
-            </div>
-            <button type="submit"  class="btn" data-toggle="modal" data-target="#exampleModal">BUY</button>
+        <div class="col-md-4 summary" id="order">
+<!--            <div><h5><b>Đơn Đặt hàng</b></h5></div>-->
+<!--            <hr>-->
+<!--            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">-->
+<!--                <div class="col">Số loại hàng</div>-->
+<!--                <div class="col text-right" th:text="|${lstProduct.size()}|"></div>-->
+<!--            </div>-->
+<!--            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">-->
+<!--                <div class="col">Số lượng hàng</div>-->
+<!--                <div class="col text-right" th:text="|${sumtotal}|"></div>-->
+<!--            </div>-->
+<!--            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">-->
+<!--                <div class="col">Tổng giá </div>-->
+<!--                <div class="col text-right" th:text="| ${sumPrice -30000} VND|"></div>-->
+<!--            </div>-->
+<!--            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">-->
+<!--                <div class="col">Phí ship</div>-->
+<!--                <div class="col text-right" >30000 VND</div>-->
+<!--            </div>-->
+<!--            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">-->
+<!--                <div class="col">Tổng tiền </div>-->
+<!--                <div class="col text-right" th:text="|${sumPrice} VND|"></div>-->
+<!--            </div>-->
+<!--            <button type="submit"  class="btn" data-toggle="modal" data-target="#exampleModal">BUY</button>-->
         </div>
     </div>
 </div>
@@ -345,7 +345,7 @@
     }
 
 
-    function editTotal(){
+    function editTotal(value,id){
         var categoryLst = [];
         $('.categoryy:checkbox:checked').each(function () {
             categoryLst.push($(this).val());
@@ -364,15 +364,11 @@
             lstCategory: null,
             lstStar: null,
             total: null,
+            idProduct : null
         };
-        bodyData.categoryId = $("#categoryId").val();
-        bodyData.fromDate =$("#fromDate").val();
-        bodyData.toDate =$("#toDate").val();
-        bodyData.rating =$("#rating").val();
-        bodyData.pageIndex =1;
-        bodyData.pageSize =10;
-        bodyData.lstCategory =categoryLst;
-        bodyData.lstStar =starLst;
+        bodyData.total =value;
+        bodyData.idProduct = id;
+
         $.ajax({
             url: '/product/cartTotal',
             type: 'POST',
@@ -393,7 +389,7 @@
                         </div>
                         <div class="col">
                             <button onclick="prevTotal(${p.id})">-</button>
-                            <a href="#"> <input value="${p.totalItem}" id="${p.id}" style="border:none; width: 20px;   ">
+                            <a href="#"> <input value="${p.totalItem}" id="${p.id}" style="border:none; width: 40px; padding: 10px  ">
                             </a>
                             <button onclick="nextTotal(${p.id})">+</button>
                         </div>
@@ -409,7 +405,33 @@
                     </div>
                 </div>
                             `)
-                );
+                ),
+                    $("#order").empty();
+                    $('#order').append(`
+                 <div><h5><b>Đơn Đặt hàng</b></h5></div>
+            <hr>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">Số loại hàng</div>
+                <div class="col text-right" >${result.length}</div>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">Số lượng hàng</div>
+                <div class="col text-right" >${result.sumtotal}</div>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">Tổng giá </div>
+                <div class="col text-right" >${result.sumPrice } VND</div>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">Phí ship</div>
+                <div class="col text-right" >30000 VND</div>
+            </div>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">Tổng tiền </div>
+                <div class="col text-right" >${result.sumPrice + 30000} VND</div>
+            </div>
+            <button type="submit"  class="btn" data-toggle="modal" data-target="#exampleModal">BUY</button>
+                            `)
             },
             error: function (error) {
                 console.log(error)
@@ -435,12 +457,13 @@
         });
     }
     $(document).ready(function (){
-        editTotal();
+        editTotal(0,0);
     })
     function nextTotal(id){
         var a = parseInt(document.getElementById(id).value);
         a += 1
         document.getElementById(id).value = a;
+        editTotal(a,id);
     }
 
     function prevTotal(id){
@@ -450,6 +473,7 @@
             a = 0;
         }
         document.getElementById(id).value = a;
+        editTotal(a,id);
     }
 
 </script>

@@ -27,4 +27,6 @@ public class SearchReportDto {
     private String nameUser;
     private String timeCreate;
     private Integer status;
+    private Long idProduct;
+    private Integer total;
 }

@@ -1,6 +1,8 @@
 package com.example.test_spring_boot.Configuration.Security;
 
 import com.example.test_spring_boot.Configuration.Oauth2.CustomOauth2User;
+import com.example.test_spring_boot.Entity.UserEntity;
+import com.example.test_spring_boot.Repository.UserRepository;
 import com.example.test_spring_boot.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +27,8 @@ import java.io.IOException;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
+    @Autowired
+    UserRepository userRepository;
 
     @Bean
     public UserDetailsServiceCustom userDetailsServiceImpl(){
@@ -88,9 +92,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         String email = oAuth2User.getAttribute("email");
                         HttpSession session = request.getSession();
 
-                        userService.checkExistUserOauth(email, clientName);
-                        session.setAttribute("nameUser", oAuth2User.getName());
-                        response.sendRedirect("/product/index_user");
+                        UserEntity userEntity = userService.checkExistUserOauth(email, clientName);
+                        if(userEntity == null){
+                            response.sendRedirect("/login");
+                        }else {
+                            UserEntity user = userRepository.getByEmail(email);
+                            session.setAttribute("nameUser", oAuth2User.getName());
+                            response.sendRedirect("/product/index_user");
+                        }
                     }
                 })
                 .and()

@@ -66,7 +66,7 @@ public class LoginController {
     @PostMapping("/reset_account")
     public ResponseEntity<?> resetAccount(UserDto userDto){
         try{
-            UserEntity  userEntity = userRepository.getByEmail(userDto.getEmail());
+            UserEntity userEntity = userRepository.getByEmail(userDto.getEmail());
             int min = 1;
             int max = 10000;
             int range = max - min + 1;

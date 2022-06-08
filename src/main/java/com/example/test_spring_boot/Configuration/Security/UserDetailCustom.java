@@ -34,6 +34,10 @@ public class UserDetailCustom implements org.springframework.security.core.userd
         return userEntity.getPassword();
     }
 
+    public Long getId() {
+        return userEntity.getId();
+    }
+
     @Override
     public String getUsername() {
         return userEntity.getUsername();
@@ -58,4 +62,7 @@ public class UserDetailCustom implements org.springframework.security.core.userd
     public boolean isEnabled() {
         return true;
     }
+
+
+
 }

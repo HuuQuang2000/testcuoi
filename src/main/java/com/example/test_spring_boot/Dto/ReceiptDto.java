@@ -42,7 +42,9 @@ public class ReceiptDto {
                 this.createTime =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(receiptEntity.getModifierDate());
             }
         }
-        this.listProductDTO = receiptEntity.getProductHistorys().stream().map(x -> new ProductHistoryDto(x)).collect(Collectors.toList());
+        if(receiptEntity.getProductHistorys() != null){
+            this.listProductDTO = receiptEntity.getProductHistorys().stream().map(x -> new ProductHistoryDto(x)).collect(Collectors.toList());
+        }
         if(receiptEntity.getProductHistorys() != null && receiptEntity.getProductHistorys().get(0) != null){
             this.fullname = receiptEntity.getProductHistorys().get(0).getUserEntity().getFullname();
         }

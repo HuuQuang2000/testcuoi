@@ -337,22 +337,30 @@ public class ProductController {
         ResultDto resultDto = new ResultDto();
 
         List<CartDto> lstCart= (List<CartDto>) session.getAttribute("cart");
+        if(searchReportDto.getIdProduct() != null && searchReportDto.getIdProduct() >0){
+            for(CartDto p : lstCart){
+                if(p.getIdProduct() == searchReportDto.getIdProduct()){
+                    p.setTotalItem(searchReportDto.getTotal());
+                }
+            }
+        }
         List<ProductDto> lstProductDto = productService.getProductByCartDto(lstCart);
-        model.addAttribute("lstProduct",lstProductDto);
+//        model.addAttribute("lstProduct",lstProductDto);
         resultDto.setProductDtos(lstProductDto);
 
         Double sumPrice = lstProductDto.stream().mapToDouble(o -> o.getPrice()).sum();
         resultDto.setSumPrice(sumPrice);
-        model.addAttribute("receiptDto",new ReceiptDto());
-
-        model.addAttribute("sumPrice",sumPrice + 30000);
+//        model.addAttribute("receiptDto",new ReceiptDto());
+//
+//        model.addAttribute("sumPrice",sumPrice + 30000);
         Long total =0l;
         if ( lstCart != null && !lstCart.isEmpty()){
             for(CartDto p : lstCart){
                 total += p.getTotalItem();
             }
         }
-        model.addAttribute("sumtotal",total);
+        resultDto.setLength(lstCart.size());
+//        model.addAttribute("sumtotal",total);
         resultDto.setSumtotal(total);
         return ResponseEntity.ok(resultDto);
     }

@@ -1,10 +1,14 @@
 package com.example.test_spring_boot.Service;
 
 import com.example.test_spring_boot.Dto.UserDto;
+import com.example.test_spring_boot.Entity.UserEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpResponse;
+
 public interface UserService {
-    void checkExistUserOauth(String username, String method);
+    UserEntity checkExistUserOauth(String username, String method);
     UserDto registerAcc(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder);
     UserDto updateAcc(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder);
 }

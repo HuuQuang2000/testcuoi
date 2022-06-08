@@ -34,6 +34,8 @@ public class UserEntity extends BaseEntity{
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<RoleEntity> roles;
 
+    private String methodLogin;
+
     private int token;
 
 }

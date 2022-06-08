@@ -19,4 +19,5 @@ public class ResultDTO {
     private int totalPage;
     private ReceiptDto receiptDto;
     private int number;
+    private Long length;
 }

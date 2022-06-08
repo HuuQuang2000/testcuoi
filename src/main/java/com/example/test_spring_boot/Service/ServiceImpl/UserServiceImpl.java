@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,25 +24,28 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
 
     @Override
-    public void checkExistUserOauth(String username, String method) {
-        UserEntity existUser = userRepository.getByUsername(username);
-        if(existUser == null){
-            UserEntity u = new UserEntity();
-
-            u.setUsername(username);
-//            u.setProvider(method);
-//            u.setEnable(true);
-            u = userRepository.save(u);
-            u = userRepository.findById(u.getId()).get();
-            RoleEntity role = roleRepository.findById(2L).get();
-            Set<RoleEntity> roleSet = new HashSet<>();
-            roleSet.add(role);
-            if(u.getRoles() != null && u.getRoles().size() > 0){
-                u.getRoles().clear();
-            }
-            u.setRoles(roleSet);
-            u = userRepository.save(u);
-        }
+    public UserEntity checkExistUserOauth(String username, String method ) {
+               UserEntity u = null;
+               if(userRepository.getByEmail(username) != null){
+                   u = userRepository.getByEmail(username);
+                  if(!u.getMethodLogin().contains(method) ){
+                      return null;
+                  }
+               }else {
+                   u = new UserEntity();
+               }
+               u.setUsername(username);
+               u.setEmail(username);
+               u.setMethodLogin(method);
+               RoleEntity role = roleRepository.findById(2L).get();
+               Set<RoleEntity> roleSet = new HashSet<>();
+               roleSet.add(role);
+               if(u.getRoles() != null && u.getRoles().size() > 0){
+                   u.getRoles().clear();
+               }
+               u.setRoles(roleSet);
+               u = userRepository.save(u);
+               return u;
     }
 
     @Override

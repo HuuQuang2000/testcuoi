@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -118,14 +119,16 @@ public class ReceiptController {
     @GetMapping ("/user")
     public String userReceipt(Model model, @RequestParam("username") String username, HttpSession session) throws IOException {
        UserDto userDto = new UserDto(userService.getByUsername(username));
-
        List<ReceiptDto> list = receiptService.getAll();
-       for (int i =0 ; i < list.size() ; i ++){
-           if(!list.get(i).getListProductDTO().get(0).getUsername().contains(username) && list.get(i).getListProductDTO() != null ){
-               list.remove(list.get(i));
-           };
+       if(list != null && list.size() > 0){
+           for (int i =0 ; i < list.size() ; i ++){
+               if(!list.get(i).getListProductDTO().get(0).getUsername().contains(username) && list.get(i).getListProductDTO() != null ){
+                   list.remove(list.get(i));
+               };
+           }
+       }else {
+           list =new ArrayList<>();
        }
-
        session.setAttribute("nameUser",username);
        model.addAttribute("listReceipt",list);
         return "view_user/receipt";

@@ -17,4 +17,5 @@ public class ResultDto {
     private ReceiptDto receiptDto;
     private Double sumPrice;
     private Long sumtotal;
+    private int length;
 }
