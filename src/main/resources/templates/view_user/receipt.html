@@ -446,7 +446,15 @@
                                 <div class="d-flex">
                                     <form style="margin-left: 10px" method="post" th:action="@{/receipt/user/detail}">
                                         <input type="hidden" id="username"  name ="id" th:value="${p.id}" >
-                                        <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Detail</button>
+                                        <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Chi tiết</button>
+                                    </form>
+                                </div>
+                            </th>
+                            <th th:if="${p.status != 1}">
+                                <div class="d-flex">
+                                    <form style="margin-left: 10px" method="post" th:action="@{/user/payvn}">
+                                        <input type="hidden"  name ="id" th:value="${p.id}" >
+                                        <button onclick="" class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">Thanh toán</button>
                                     </form>
                                 </div>
                             </th>

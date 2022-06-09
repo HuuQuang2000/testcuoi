@@ -163,7 +163,7 @@
         background-position-y: center;
     }
 </style>
-<div class="card">
+<div class="card" style="max-width: 1050px">
     <div class="row">
         <div class="col-md-8 cart">
             <div class="title">
@@ -384,20 +384,22 @@
                             <img class="img-fluid" src="/uploads/${p.image}">
                         </div>
                         <div class="col">
-                            <div class="row text-muted" >${p.categoryName}</div>
+
                             <div class="row" >${p.name}</div>
                         </div>
                         <div class="col">
-                            <button onclick="prevTotal(${p.id})">-</button>
-                            <a href="#"> <input value="${p.totalItem}" id="${p.id}" style="border:none; width: 40px; padding: 10px  ">
+                            <div style="position: relative; top: 16px ; left: -20px">
+                            <button onclick="prevTotal(${p.id})" style="border: 1px solid #3333;">-</button>
+                            <a href="#" > <input value="${p.totalItem}" id="${p.id}" style="border:none; width: 40px; padding-left: 15px;" style="border: 1px solid #3333;">
                             </a>
-                            <button onclick="nextTotal(${p.id})">+</button>
+                            <button onclick="nextTotal(${p.id})"  style="border: 1px solid #3333;">+</button>
+                            </div>
                         </div>
                         <div class="col" >${p.price} VND</div>
                         <div class="col">
                             <form method="post" action="/product/removeCart">
                                 <input type="hidden" value="${p.id}"  name="idProduct">
-                                <button type="submit">
+                                <button type="submit" style="border: 1px solid #3333;">
                                     xóa
                                 </button>
                             </form>

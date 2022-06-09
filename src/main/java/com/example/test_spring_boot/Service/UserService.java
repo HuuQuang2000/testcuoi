@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.http.HttpResponse;
 
 public interface UserService {
-    UserEntity checkExistUserOauth(String username, String method);
+    UserEntity checkExistUserOauth(String email, String method,String username);
     UserDto registerAcc(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder);
     UserDto updateAcc(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder);
 }

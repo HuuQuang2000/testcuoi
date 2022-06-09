@@ -91,7 +91,21 @@ public class ReviewServiceImpl implements ReviewService {
                 postRepository.save(postEntity);
             }
         }catch (Exception e){
-            System.out.printf("lỗi lòis");
+            ProductEntity p = productRepository.getById(reivewUserDto.getIdProduct());
+            ReviewEntity reviewEntity = p.getReviewEntity();
+            if(reviewEntity == null){
+                reviewEntity = new ReviewEntity();
+                reviewEntity.setRating(0);
+                p.setReviewEntity(reviewEntity);
+                p = productRepository.save(p);
+            }
+            String a = authentication.getName();
+            UserEntity userEntity = userRepository.getByUsername(authentication.getName());
+            PostEntity postEntity = new PostEntity();
+            postEntity.setContent(reivewUserDto.getContent());
+            postEntity.setUserEntity(userEntity);
+            postEntity.setReviewEntity(p.getReviewEntity());
+            postRepository.save(postEntity);
         }
     }
 }

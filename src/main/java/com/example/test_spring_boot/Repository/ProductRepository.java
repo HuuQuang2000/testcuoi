@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     @Query("select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where p.id = ?1")
     ProductDto getDtoById(Long id);
 
-    @Query("select u from ProductEntity u where u.name = ?1")
+    @Query("select u from ProductEntity u where u.name like ?1")
     ProductEntity getByName(String name);
     @Query("select r from ProductEntity r where r.id in ?1")
     List<ProductEntity> getAllById(List<Long> id);

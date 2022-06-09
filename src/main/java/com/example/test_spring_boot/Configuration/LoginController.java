@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,7 +50,10 @@ public class LoginController {
 //    }
 
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm(Model model, HttpServletRequest request ){
+        HttpSession session = request.getSession();
+        String a = (String) session.getAttribute("error");
+        model.addAttribute("error",a);
         return "login";
     }
 

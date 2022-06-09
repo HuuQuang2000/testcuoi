@@ -16,7 +16,7 @@ import java.util.Date;
 public class PostDto {
     private Long id;
     private String content;
-    private Integer parentId;
+    private Long parentId;
     private Integer totalLike;
     private ReviewDto reviewDto;
     private UserDto userDto;

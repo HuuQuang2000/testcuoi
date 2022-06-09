@@ -23,7 +23,7 @@ public class PostEntity extends BaseEntity{
     private String content;
 
     @Column(name = "parent_id")
-    private Integer parentId;
+    private Long parentId;
 
     @Column(name = "total_like")
     private Integer totalLike;

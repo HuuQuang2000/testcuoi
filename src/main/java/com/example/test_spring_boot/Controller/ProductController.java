@@ -78,7 +78,6 @@ public class ProductController {
         model.addAttribute("lstProduct", productService.getByPage(0,10));
         model.addAttribute("categories", categoryRepository.getAllDto());
         model.addAttribute("productDto", new ProductDto());
-
         HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
@@ -141,6 +140,7 @@ public class ProductController {
         HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
+        model.addAttribute("yes3", "true");
         return "view_admin/report/index";
     }
 
@@ -280,8 +280,8 @@ public class ProductController {
                     email = oAuth2User.getAttribute("email");
                 }
             }
-            UserEntity userEntity = userRepository.getByUsername(email);
-            mailService.sendMail(userEntity.getEmail(), "Thanh toán thành công!!!",null,null,null,lstCart);
+            UserEntity userEntity = userRepository.getByEmail(email);
+//            mailService.sendMail(userEntity.getEmail(), "Thanh toán thành công!!!",null,null,null,lstCart);
             List<Long> lstLong = new ArrayList<>();
             List<ProductHistoryDto> productHistoryDtos = new ArrayList<>();
             ProductHistory productHistory = null;
@@ -300,7 +300,9 @@ public class ProductController {
             ReceiptDto receiptDto1 = receiptService.createOrUpdate(receiptDto);
             model.addAttribute("idProducts", lstLong);
             session.setAttribute("cart", null);
-            return "paySuccess";
+            String username = (String) session.getAttribute("nameUser");
+            model.addAttribute("nameUser",username);
+            return "orderSucess";
         }
     }
     @PostMapping("/removeCart")
@@ -364,4 +366,5 @@ public class ProductController {
         resultDto.setSumtotal(total);
         return ResponseEntity.ok(resultDto);
     }
+
 }

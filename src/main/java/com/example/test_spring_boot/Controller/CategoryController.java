@@ -39,6 +39,7 @@ public class CategoryController {
         model.addAttribute("nameUser", uzxc);
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         model.addAttribute("categories",lstCategory);
+        model.addAttribute("yes","true");
         return "view_admin/category/index";
     }
 

@@ -92,8 +92,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         String email = oAuth2User.getAttribute("email");
                         HttpSession session = request.getSession();
 
-                        UserEntity userEntity = userService.checkExistUserOauth(email, clientName);
+                        UserEntity userEntity = userService.checkExistUserOauth(oAuth2User.getName(), clientName,email );
                         if(userEntity == null){
+                            session.setAttribute("error","error");
                             response.sendRedirect("/login");
                         }else {
                             UserEntity user = userRepository.getByEmail(email);

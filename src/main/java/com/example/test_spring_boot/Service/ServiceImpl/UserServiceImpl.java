@@ -24,19 +24,20 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
 
     @Override
-    public UserEntity checkExistUserOauth(String username, String method ) {
+    public UserEntity checkExistUserOauth(String username, String method ,String email) {
                UserEntity u = null;
-               if(userRepository.getByEmail(username) != null){
-                   u = userRepository.getByEmail(username);
-                  if(!u.getMethodLogin().contains(method) ){
+               if(userRepository.getByEmail(email) != null){
+                   u = userRepository.getByEmail(email);
+                  if(u.getMethodLogin() != null &&!u.getMethodLogin().contains(method) ){
                       return null;
                   }
                }else {
                    u = new UserEntity();
                }
                u.setUsername(username);
-               u.setEmail(username);
+               u.setEmail(email);
                u.setMethodLogin(method);
+               u.setFullname(username);
                RoleEntity role = roleRepository.findById(2L).get();
                Set<RoleEntity> roleSet = new HashSet<>();
                roleSet.add(role);
@@ -53,18 +54,22 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.getByUsername(userDto.getUsername());
         if(userEntity != null){
             return null;
-        }
-        else {
-            userEntity = new UserEntity();
-            userEntity.setUsername(userDto.getUsername());
-            userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-            userEntity.setEmail(userDto.getEmail());
-            RoleEntity role =roleRepository.findById(2L).get();
-            Set<RoleEntity> roleEntities = new HashSet<>();
-            roleEntities.add(role);
-            userEntity.setRoles(roleEntities);
-            userEntity.setFullname(userDto.getFullname());
-            userEntity = userRepository.save(userEntity);
+        } else {
+            userEntity = userRepository.getByEmail(userDto.getEmail());
+            if(userEntity != null){
+                return null;
+            }else {
+                userEntity = new UserEntity();
+                userEntity.setUsername(userDto.getUsername());
+                userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+                userEntity.setEmail(userDto.getEmail());
+                RoleEntity role =roleRepository.findById(2L).get();
+                Set<RoleEntity> roleEntities = new HashSet<>();
+                roleEntities.add(role);
+                userEntity.setRoles(roleEntities);
+                userEntity.setFullname(userDto.getFullname());
+                userEntity = userRepository.save(userEntity);
+            }
         }
         return new UserDto(userEntity);
     }

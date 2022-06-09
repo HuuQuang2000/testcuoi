@@ -1,14 +1,13 @@
 package com.example.test_spring_boot.Controller;
 
 
-import com.example.test_spring_boot.Dto.CategoryDto;
-import com.example.test_spring_boot.Dto.ReceiptDto;
+import com.example.test_spring_boot.Dto.*;
 import com.example.test_spring_boot.Dto.SearchDto.ResultDTO;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
-import com.example.test_spring_boot.Dto.UserDto;
 import com.example.test_spring_boot.Entity.UserEntity;
 import com.example.test_spring_boot.Repository.CategoryRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
+import com.example.test_spring_boot.Service.MailService;
 import com.example.test_spring_boot.Service.ReceiptService;
 import com.example.test_spring_boot.Service.ServiceImpl.ProductHistoryServiceImpl;
 import com.example.test_spring_boot.Service.UserService;
@@ -39,6 +38,9 @@ public class ReceiptController {
     ReceiptService receiptService;
     @Autowired
     UserRepository userService;
+    @Autowired
+    MailService mailService;
+
     @PostMapping("/search_report_product")
     public ResponseEntity<?> searchPageReceipt(SearchReportDto searchReportDto, HttpServletResponse response){
         Page<ReceiptDto> resultDTO = receiptService.searchByDto(searchReportDto);
@@ -63,6 +65,7 @@ public class ReceiptController {
         HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
+        model.addAttribute("yes1", "true");
         return url;
     }
     @PostMapping("/export_report_by_search")
@@ -111,8 +114,18 @@ public class ReceiptController {
     public String pay(Model model, ReceiptDto receiptDto ,HttpServletRequest request) throws IOException {
         receiptService.changStatus(receiptDto.getId(), 1);
         HttpSession session = request.getSession();
+        ReceiptDto receiptDto1 = receiptService.findById(receiptDto.getId());
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
+
+        List<CartDto> cartDtos = new ArrayList<>();
+        for(ProductHistoryDto r: receiptDto1.getListProductDTO()){
+            CartDto cartDto = new CartDto();
+            cartDto.setTotalItem(r.getTotalItem());
+            cartDto.setIdProduct(r.getId());
+            cartDtos.add(cartDto);
+        }
+        mailService.sendMail(receiptDto1.getFullname(), "Thanh toán thành công!!!",null,null,null,cartDtos);
         return "redirect:/receipt/status/1";
     }
 
