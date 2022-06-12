@@ -45,7 +45,7 @@ public class ReceiptDto {
         if(receiptEntity.getProductHistorys() != null){
             this.listProductDTO = receiptEntity.getProductHistorys().stream().map(x -> new ProductHistoryDto(x)).collect(Collectors.toList());
         }
-        if(receiptEntity.getProductHistorys() != null && receiptEntity.getProductHistorys().get(0) != null){
+        if(receiptEntity.getProductHistorys() != null && receiptEntity.getProductHistorys().get(0) != null && receiptEntity.getProductHistorys().get(0).getUserEntity().getEmail() != null ){
             this.fullname = receiptEntity.getProductHistorys().get(0).getUserEntity().getEmail();
         }
         this.priceShip = receiptEntity.getPriceShip();

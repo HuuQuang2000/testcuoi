@@ -3,14 +3,8 @@ package com.example.test_spring_boot.Service.ServiceImpl;
 import com.example.test_spring_boot.Configuration.Security.UserDetailCustom;
 import com.example.test_spring_boot.Dto.Func.ProductRating;
 import com.example.test_spring_boot.Dto.Func.ReivewUserDto;
-import com.example.test_spring_boot.Entity.PostEntity;
-import com.example.test_spring_boot.Entity.ProductEntity;
-import com.example.test_spring_boot.Entity.ReviewEntity;
-import com.example.test_spring_boot.Entity.UserEntity;
-import com.example.test_spring_boot.Repository.PostRepository;
-import com.example.test_spring_boot.Repository.ProductRepository;
-import com.example.test_spring_boot.Repository.ReviewRepository;
-import com.example.test_spring_boot.Repository.UserRepository;
+import com.example.test_spring_boot.Entity.*;
+import com.example.test_spring_boot.Repository.*;
 import com.example.test_spring_boot.Service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -30,11 +26,17 @@ public class ReviewServiceImpl implements ReviewService {
     UserRepository userRepository;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    ReceiptRepository receiptRepository;
 
 
     @Override
     public void rating(ProductRating productRating) {
-        for (Long idProduct : productRating.getIdProduct()){
+        Long id = (long) productRating.getIdProduct();
+        List<Long> ids = new ArrayList<>();
+        ReceiptEntity receiptEntity = receiptRepository.findById(id).get();
+        receiptEntity.getProductHistorys().stream().forEach(x -> ids.add(x.getId()));
+        for (Long idProduct : ids){
             ProductEntity productEntity = productRepository.getById(idProduct);
             Integer ratingProduct = 0;
             if(productEntity.getReviewEntity() == null){
@@ -42,7 +44,8 @@ public class ReviewServiceImpl implements ReviewService {
                 reviewEntity.setRating(productRating.getRate());
                 productEntity.setReviewEntity(reviewEntity);
             }else{
-                productEntity.getReviewEntity().setRating((ratingProduct + productRating.getRate()) / 2);
+                int a = (int) ((productRating.getRate() + productRating.getRate()) / 2);
+                productEntity.getReviewEntity().setRating(a);
             }
             productRepository.save(productEntity);
         }

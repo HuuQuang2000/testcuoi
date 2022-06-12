@@ -272,7 +272,8 @@ public class ProductController {
             String email = "";
             try{
                 userDetailsCustom = (UserDetailCustom) authentication.getPrincipal();
-                email = userDetailsCustom.getUsername();
+                UserEntity userEntity = userRepository.getByUsername(userDetailsCustom.getUsername());
+                email = userEntity.getEmail();
             }
             catch (Exception e){
                 if(userDetailsCustom == null){

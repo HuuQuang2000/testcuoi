@@ -28,6 +28,8 @@ public interface ReceiptRepository extends JpaRepository<ReceiptEntity, Long> {
 
     @Query("select r from ReceiptEntity r where r.status = ?1")
     Page<ReceiptEntity> pageSearch(Integer status,Pageable pageable);
+    @Query("select r from ReceiptEntity r")
+    Page<ReceiptEntity> pageSearch(Pageable pageable);
 
     @Query("select r from ReceiptEntity r where r.id in ?1")
     List<ReceiptEntity> getAllById(List<Long> id);

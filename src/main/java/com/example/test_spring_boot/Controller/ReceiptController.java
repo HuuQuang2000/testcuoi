@@ -52,7 +52,7 @@ public class ReceiptController {
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         model.addAttribute("categories",lstCategory);
         receiptService.setActiveByTime();
-        String url = "view_admin/report/Receipt-susscess-view";
+        String url = "view_admin/report/index";
         if(id == 3){
             url = "view_admin/report/Receipt-pending-ship-view";
         }else if(id==4){
@@ -61,6 +61,8 @@ public class ReceiptController {
             url="view_admin/report/Receipt-pending-confirm-view";
         }else if (id==5){
             url="view_admin/report/Receipt-Detroy-view";
+        }else if(id == 1){
+            url = "view_admin/report/Receipt-susscess-view";
         }
         HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();

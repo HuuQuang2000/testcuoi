@@ -80,7 +80,6 @@ public class ReceiptServiceImpl implements ReceiptService {
             pageIndex = pageIndex - 1;
         else
             pageIndex = 0;
-
         Pageable pageable = PageRequest.of(pageIndex,pageSize);
         Page<ReceiptDto> list;
         String textSearch = searchReportDto.getTextSearch();
@@ -88,18 +87,21 @@ public class ReceiptServiceImpl implements ReceiptService {
         if (searchReportDto.getTextSearch() != null && searchReportDto.getToDate() != null && searchReportDto.getFromDate() != null){
             Date fromDate;
             Date toDate;
-
             SimpleDateFormat formatter6 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             try {
                 fromDate = formatter6.parse(searchReportDto.getFromDate().replace("T", " "));
                 toDate = formatter6.parse(searchReportDto.getToDate().replace("T", " "));
                 list = receiptRepository.pageSearchByAll(textSearch,fromDate , toDate ,searchReportDto.getStatus(), pageable).map(x-> new ReceiptDto(x));
             } catch (ParseException e) {
-                list = receiptRepository.pageSearchByTextSearch(textSearch,searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
-            }
 
+                    list = receiptRepository.pageSearchByTextSearch(textSearch,searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
+            }
         }else {
-            list = receiptRepository.pageSearch(searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
+            if(searchReportDto.getStatus() == null){
+                list = receiptRepository.pageSearch(pageable).map(x-> new ReceiptDto(x));
+            }else {
+                list = receiptRepository.pageSearch(searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
+            }
         }
 
         return list;

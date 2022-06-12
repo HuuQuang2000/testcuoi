@@ -1,5 +1,7 @@
 package com.example.test_spring_boot.Service.ServiceImpl;
 
+import com.example.test_spring_boot.Dto.CategoryDto;
+import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Dto.UserDto;
 import com.example.test_spring_boot.Entity.RoleEntity;
 import com.example.test_spring_boot.Entity.UserEntity;
@@ -7,6 +9,9 @@ import com.example.test_spring_boot.Repository.RoleRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
 import com.example.test_spring_boot.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -84,4 +89,19 @@ public class UserServiceImpl implements UserService {
         userEntity.setFullname(userDto.getFullname());
         return new UserDto(userRepository.save(userEntity));
     }
+
+    @Override
+    public Page<UserDto> findPage(SearchReportDto searchReportDto) {
+        int pageSize = 5;
+        int pageIndex = searchReportDto.getPageIndex();
+        Pageable pageable = PageRequest.of(pageIndex,pageSize);
+        Page<UserDto> list;
+        if(searchReportDto.getTextSearch() != null){
+            list = userRepository.getAllByName(searchReportDto.getTextSearch(),pageable).map(x -> new UserDto(x));
+        }else {
+            list = userRepository.getAll(pageable).map(x -> new UserDto(x));
+        }
+        return list;
+    }
+
 }

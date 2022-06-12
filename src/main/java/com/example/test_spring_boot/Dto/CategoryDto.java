@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.Date;
 public class CategoryDto {
     private Long id;
     private String name;
-    private Date CreateDate;
+    private String CreateDate;
     private String CreateBy;
 
     public CategoryDto(CategoryEntity categoryEntity){
@@ -22,7 +23,13 @@ public class CategoryDto {
                 this.id = categoryEntity.getId();
             if(categoryEntity.getName() != null)
                 this.name = categoryEntity.getName();
-            this.CreateDate = categoryEntity.getCreateDate();
+            if(categoryEntity.getCreateDate() != null){
+                this.CreateDate = new SimpleDateFormat("yyyy-MM-dd HH:ss").format(categoryEntity.getCreateDate());
+            }else {
+                if(categoryEntity.getModifierDate() != null){
+                    this.CreateDate =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(categoryEntity.getModifierDate());
+                }
+            }
             this.CreateBy = categoryEntity.getCreateBy();
         }
     }

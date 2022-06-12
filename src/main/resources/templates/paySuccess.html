@@ -72,6 +72,7 @@
         <div class="col text-center">
             <a onclick="rating()" class="btn btn-info">Gửi đánh giá!!!</a>
         </div>
+        <input type="hidden" id="idReceipt" th:value="${idReceipt}">
         <div class="col text-center mt-3">
             <a th:href="@{/product/index_user}" class="btn btn-success">Bấm vào đây để tiếp tục mua sắm!!!</a>
         </div>
@@ -87,8 +88,9 @@
             bodyRq ={
                 idProduct :null,
                 rate : null
+
             }
-            bodyRq.idProduct = theList;
+            bodyRq.idProduct = parseInt(document.getElementById("idReceipt").value,10);
             bodyRq.rate = rate;
             $.ajax({
                 url: '/review/staring',
@@ -97,7 +99,7 @@
                 success: function (result) {
                     if(result == true){
                         alert("Cảm ơn bạn đã đánh giá, trang web tự động chuyển về trang chủ sau 3s!")
-                        setInterval(function () {window.location="./index_user"}, 3000);
+                        setInterval(function () {window.location="/product/index_user"}, 3000);
                     }
                 },
                 error: function (error) {

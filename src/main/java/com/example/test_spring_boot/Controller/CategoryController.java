@@ -71,4 +71,6 @@ public class CategoryController {
         Page<CategoryDto> a = categoryService.searchByDto(searchReportDto);
         return ResponseEntity.ok(a);
     }
+
+
 }

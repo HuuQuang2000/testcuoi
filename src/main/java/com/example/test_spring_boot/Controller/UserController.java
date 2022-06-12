@@ -2,6 +2,7 @@ package com.example.test_spring_boot.Controller;
 
 import com.example.test_spring_boot.Common.Config;
 import com.example.test_spring_boot.Dto.*;
+import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Entity.ProductHistory;
 import com.example.test_spring_boot.Entity.ReceiptEntity;
 import com.example.test_spring_boot.Entity.UserEntity;
@@ -14,6 +15,7 @@ import com.example.test_spring_boot.Service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -67,7 +69,11 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @PostMapping("/create_update_user")
     public String registerAccount(UserDto userDto ,Model model){
-        userDto = userService.updateAcc(userDto, bCryptPasswordEncoder);
+        if(userDto.getId() != null){
+            userDto = userService.updateAcc(userDto, bCryptPasswordEncoder);
+        }else {
+            userDto = userService.registerAcc(userDto,bCryptPasswordEncoder);
+        }
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
         model.addAttribute("categories",lstCategory);
         return "redirect:/user/manager_user";
@@ -140,6 +146,7 @@ public class UserController {
                 HttpSession session = request.getSession();
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
+        model.addAttribute("idReceipt", id);
         UserEntity userEntity = userRepository.getByUsername(uzxc);
         List<CartDto> cartDtos = new ArrayList<>();
         for(ProductHistoryDto r: receiptDto1.getListProductDTO()){
@@ -148,7 +155,11 @@ public class UserController {
             cartDto.setIdProduct(r.getId());
             cartDtos.add(cartDto);
         }
-        mailService.sendMail(userEntity.getEmail(), "Thanh toán thành công!!!",null,null,null,cartDtos);
+        try{
+            mailService.sendMail(userEntity.getEmail(), "Thanh toán thành công!!!",null,null,null,cartDtos);
+        }catch (Exception e){
+            System.out.printf("emial ko coos");
+        }
         return "paySuccess";
     }
     @PostMapping("/payvn")
@@ -256,5 +267,11 @@ public class UserController {
         job.addProperty("data", paymentUrl);
         Gson gson = new Gson();
         return  "redirect:"+paymentUrl;
+    }
+    @Secured({"ROLE_ADMIN"})
+    @PostMapping(value = "/searchPage")
+    public ResponseEntity<?> searchReportByPage(SearchReportDto searchReportDto){
+        Page<UserDto> a = userService.findPage(searchReportDto);
+        return ResponseEntity.ok(a);
     }
 }

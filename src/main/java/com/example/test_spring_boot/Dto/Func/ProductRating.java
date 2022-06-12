@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRating {
-    private List<Long> idProduct;
+    private Integer idProduct;
     private Integer rate;
 }

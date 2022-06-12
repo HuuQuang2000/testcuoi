@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -16,7 +17,7 @@ public class UserDto {
     private String email;
     private String fullname;
     private String password;
-    private Date createDate;
+    private String createDate;
     private String createBy;
 
     public UserDto(UserEntity userEntity){
@@ -26,8 +27,15 @@ public class UserDto {
            this.email = userEntity.getEmail();
            this.fullname = userEntity.getFullname();
            this.createBy = userEntity.getCreateBy();
-           this.createDate = userEntity.getCreateDate();
            this.password = userEntity.getPassword();
+
+           if(userEntity.getCreateDate() != null){
+               this.createDate = new SimpleDateFormat("yyyy-MM-dd HH:ss").format(userEntity.getCreateDate());
+           }else {
+               if(userEntity.getModifierDate() != null){
+                   this.createDate =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(userEntity.getModifierDate());
+               }
+           }
        }
     }
 }

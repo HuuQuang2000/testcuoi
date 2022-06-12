@@ -105,8 +105,8 @@
         sort : null
     };
         bodyData.categoryId = $("#categoryId").val();
-        bodyData.pageIndex =pageIndex;
-        bodyData.pageSize =5;
+        bodyData.pageIndex = pageIndex;
+        bodyData.pageSize = 5;
         bodyData.textSearch = $("#search").val();
         $.ajax({
         url: '/product/search_report_by_page',
@@ -204,20 +204,24 @@
     }
     });
     }
-        function redirectPage(value){
+    function redirectPage(value){
         pageIndex = value;
         searchByDto();
     }
-        function prevPage(){
-        if(pageIndex == 1)
-        return;
-        pageIndex = pageIndex - 1;
+    function prevPage(){
+        if(pageIndex == 1){
+            pageIndex = totalPage
+        }else {
+            pageIndex = pageIndex - 1;
+        }
         searchByDto();
     }
-        function nextPage(){
-        if(pageIndex == totalPage)
-        return;
-        pageIndex = pageIndex + 1;
+    function nextPage(){
+        if(pageIndex == totalPage){
+            pageIndex = 1
+        }else {
+            pageIndex = pageIndex + 1;
+        }
         searchByDto();
     }
         $(document).ready(function (){

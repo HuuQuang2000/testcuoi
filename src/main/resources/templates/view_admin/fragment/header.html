@@ -129,9 +129,16 @@
                     <span class="nav-link-text ms-1">Quản lý danh mục</span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a  class="nav-link text-white "  th:href="@{/product/report}" th:style="${yes3 == 'true'} ? 'background-image: linear-gradient(195deg, #EC407A 0%, #D81B60 100%);' : '' ">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">receipt_long</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Thống kê</span>
+                </a>
+            </li>
             <li class="nav-item" id="menu1">
-                <a class="nav-link text-white "  th:style="${ yes1 == 'true'} ? 'background-image: linear-gradient(195deg, #EC407A 0%, #D81B60 100%);' : '' " th:href="@{/receipt/status/1}">
+                <a class="nav-link text-white "  th:style="${ yes1 == 'true'} ? 'background-image: linear-gradient(195deg, #EC407A 0%, #D81B60 100%);' : '' " th:href="@{/receipt/status/0}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">receipt_long</i>
                     </div>
@@ -180,14 +187,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a  class="nav-link text-white "  th:href="@{/product/report}" th:style="${yes3 == 'true'} ? 'background-image: linear-gradient(195deg, #EC407A 0%, #D81B60 100%);' : '' ">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">receipt_long</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Thống kê</span>
-                </a>
-            </li>
+
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
             </li>

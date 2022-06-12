@@ -8,13 +8,6 @@
 <form id="from">
     <div class="row mt-5 ml-5 mr-5">
         <div class="form-group col-md-4">
-            <label >Loại sản phẩm:</label>
-            <select id="categoryId" name="categoryId" class="form-control">
-                <option value="0">Xin mời chọn</option>
-                <option th:each="item : ${categories}" th:text="${item.getName()}" th:value="${item.getId()}">1</option>
-            </select>
-        </div>
-        <div class="form-group col-md-4">
             <label >Từ ngày:</label>
             <input type="datetime-local" id="fromDate" name="fromDate" class="form-control" >
         </div>
@@ -23,7 +16,7 @@
             <input type="datetime-local" id="toDate" name="toDate" class="form-control" >
         </div>
         <div class="form-group col-md-4">
-            <label >Họ tên người mua:</label>
+            <label >Tên hóa đơn:</label>
             <input type="text" id="fullname_c" name="fullname_c" class="form-control" >
         </div>
     </div>
@@ -97,7 +90,7 @@
         };
         bodyData.categoryId = $("#categoryId").val();
         bodyData.rating =$("#rating").val();
-        bodyData.pageIndex =1;
+        bodyData.pageIndex =pageIndex;
         bodyData.fromDate = fromDate;
         bodyData.toDate = toDate;
         bodyData.export = exportFile;
