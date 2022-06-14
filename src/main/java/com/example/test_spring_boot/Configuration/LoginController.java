@@ -55,7 +55,9 @@ public class LoginController {
         String a = (String) session.getAttribute("error");
         String b = (String) session.getAttribute("dangnhaperror");
         model.addAttribute("error",a);
-        model.addAttribute("dangnhaperror",b);
+        if(a == null){
+            model.addAttribute("dangnhaperror",b);
+        }
         return "login";
     }
 
