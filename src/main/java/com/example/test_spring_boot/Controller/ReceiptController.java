@@ -2,15 +2,12 @@ package com.example.test_spring_boot.Controller;
 
 
 import com.example.test_spring_boot.Dto.*;
-import com.example.test_spring_boot.Dto.SearchDto.ResultDTO;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
-import com.example.test_spring_boot.Entity.UserEntity;
 import com.example.test_spring_boot.Repository.CategoryRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
 import com.example.test_spring_boot.Service.MailService;
 import com.example.test_spring_boot.Service.ReceiptService;
 import com.example.test_spring_boot.Service.ServiceImpl.ProductHistoryServiceImpl;
-import com.example.test_spring_boot.Service.UserService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 

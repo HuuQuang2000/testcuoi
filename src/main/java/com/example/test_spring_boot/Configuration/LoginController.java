@@ -53,7 +53,9 @@ public class LoginController {
     public String loginForm(Model model, HttpServletRequest request ){
         HttpSession session = request.getSession();
         String a = (String) session.getAttribute("error");
+        String b = (String) session.getAttribute("dangnhaperror");
         model.addAttribute("error",a);
+        model.addAttribute("dangnhaperror",b);
         return "login";
     }
 

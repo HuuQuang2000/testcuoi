@@ -137,6 +137,7 @@
 		<input type="text" name="username" id="username" class="form-control" placeholder="Nhập username ..." required="" autofocus="">
 		<input type="password" name="password" id="password" class="form-control" placeholder="Nhập password ..." required="">
 		<div th:text="${error == 'error' ? 'Email đã được sử dụng' : ''}">  </div>
+		<div th:text="${dangnhaperror == 'error' ? 'Đăng nhập thất bại' : ''}">  </div>
 
 		<button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
 		<hr>

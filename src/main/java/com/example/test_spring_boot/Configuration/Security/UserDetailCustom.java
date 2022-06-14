@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +17,16 @@ public class UserDetailCustom implements org.springframework.security.core.userd
 
     @Autowired
     UserEntity userEntity;
+    @Autowired
+    HttpServletResponse response;
 
 
-    public UserDetailCustom(UserEntity user){
-        this.userEntity = user;
+    public UserDetailCustom(UserEntity user) throws IOException {
+       if(user == null){
+           response.sendRedirect("/login");
+       }else {
+           this.userEntity = user;
+       }
     }
 
     @Override

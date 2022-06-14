@@ -79,6 +79,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                     });
                 })
+                .failureHandler((request, response, authentication) -> {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("dangnhaperror","error");
+                    response.sendRedirect("/login");})
                 .and()
                 .oauth2Login()
                 .loginPage("/login")

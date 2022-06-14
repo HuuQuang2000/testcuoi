@@ -36,6 +36,10 @@ public interface ReceiptRepository extends JpaRepository<ReceiptEntity, Long> {
 
     @Query("SELECT r from ReceiptEntity r where DATEDIFF (?1, r.CreateDate) > 3 and status = 3")
     List<ReceiptEntity> getAllByTimeNow(Date timeNow);
+    @Query("SELECT new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where DATEDIFF (month,r.CreateDate, ?1) = 0")
+    List<ReceiptDto> getAllByMonthEx(Date timeNow) ;
+    @Query("SELECT new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where DATEDIFF (month,r.CreateDate, ?1) = -1")
+    List<ReceiptDto> getAllByPrevMonthEx(Date date) ;
 
 
 }

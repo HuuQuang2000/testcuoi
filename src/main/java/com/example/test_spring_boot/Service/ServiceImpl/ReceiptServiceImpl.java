@@ -1,5 +1,6 @@
 package com.example.test_spring_boot.Service.ServiceImpl;
 
+import com.example.test_spring_boot.Dto.DataDto;
 import com.example.test_spring_boot.Dto.ProductHistoryDto;
 import com.example.test_spring_boot.Dto.ReceiptDto;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
@@ -10,6 +11,7 @@ import com.example.test_spring_boot.Repository.ProductRepository;
 import com.example.test_spring_boot.Repository.ReceiptRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
 import com.example.test_spring_boot.Service.ReceiptService;
+import lombok.Data;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -26,10 +28,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.String.valueOf;
 
 @Service
 public class ReceiptServiceImpl implements ReceiptService {

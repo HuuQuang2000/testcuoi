@@ -1,9 +1,6 @@
 package com.example.test_spring_boot.Service;
 
-import com.example.test_spring_boot.Dto.CartDto;
-import com.example.test_spring_boot.Dto.ProductDto;
-import com.example.test_spring_boot.Dto.ProductHistoryDto;
-import com.example.test_spring_boot.Dto.ReceiptDto;
+import com.example.test_spring_boot.Dto.*;
 import com.example.test_spring_boot.Dto.SearchDto.ResultDTO;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Entity.ProductHistory;
