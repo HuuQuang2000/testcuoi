@@ -260,6 +260,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             cellHeader.setCellValue("Tổng số lượng: "+r.getTotal());
             cellHeader.setCellStyle(headerCellStyle);
             contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
+            contentCellStyleDate.setBorderRight(BorderStyle.THIN);
             rowIndex += 1;
 
             sheet.setColumnWidth(0, 7500);
