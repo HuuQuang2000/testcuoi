@@ -86,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
             if(checkDir.exists() == true || checkDir.isFile() == true){
                 checkDir.mkdir();
             }
-            realativeFilePath = subFolder + Instant.now().getEpochSecond() + productDto.getFile().getOriginalFilename();
+            realativeFilePath = subFolder + Instant.now().getEpochSecond() + productDto.getFile().getOriginalFilename().replace(" ","_");
             Files.write(Paths.get(UPLOAD_FILE + realativeFilePath), productDto.getFile().getBytes());
             productEntity1.setImage(realativeFilePath);
         }
