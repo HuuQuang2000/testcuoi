@@ -170,21 +170,19 @@
                                 </li>
                 `);
         for(var i=1;i <= result.totalPages; i++){
-        if(i == result.number + 1){
-        $("#pagination_z").append(`
-                          <li class="page-item active">
-                                <button class="page-link active" onclick="redirectPage(this.value)" value="${i}">${i}</button>
-                             </li>
-                    `);
-    }
-        else{
-        $("#pagination_z").append(`
-                      <li class="page-item">
-                                <button class="page-link" onclick="redirectPage(this.value)" value="${i}">${i}</button>
-                             </li>
-                    `);
-    }
-
+                    if(i == result.number + 1){
+                    $("#pagination_z").append(`
+                                      <li class="page-item active">
+                                            <button class="page-link active" onclick="redirectPage(this.value)" value="${i}">${i}</button>
+                                         </li>
+                                `);
+                } else{
+                    $("#pagination_z").append(`
+                                  <li class="page-item">
+                                            <button class="page-link" onclick="redirectPage(this.value)" value="${i}">${i}</button>
+                                         </li>
+                                `);
+                }
     }
         $("#pagination_z").append(`
                     <li class="page-item">

@@ -99,7 +99,6 @@ public class ReceiptServiceImpl implements ReceiptService {
                 toDate = formatter6.parse(searchReportDto.getToDate().replace("T", " "));
                 list = receiptRepository.pageSearchByAll(textSearch,fromDate , toDate ,searchReportDto.getStatus(), pageable).map(x-> new ReceiptDto(x));
             } catch (ParseException e) {
-
                     list = receiptRepository.pageSearchByTextSearch(textSearch,searchReportDto.getStatus(),pageable).map(x-> new ReceiptDto(x));
             }
         }else {

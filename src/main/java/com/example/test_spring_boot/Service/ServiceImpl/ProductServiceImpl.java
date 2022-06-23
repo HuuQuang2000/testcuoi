@@ -348,7 +348,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
 
         String sql = "select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where (1=1) and p.active = 1 ";
-        String sqlCount = "select COUNT(p.id) from ProductEntity p where (1=1)";
+        String sqlCount = "select COUNT(p.id) from ProductEntity p where (1=1) and p.active = 1";
         String whereClause = "";
 
         if (searchDto.getCategoryId() != null && searchDto.getCategoryId() > 0) {
