@@ -41,6 +41,16 @@ public class MailServiceImpl implements MailService {
             List<ProductDto> lstCartDto = productService.getProductByCartDto(lstCart);
             final Context ctx = new Context(LocaleContextHolder.getLocale());
             ctx.setVariable("lstCartDto", lstCartDto);
+            Integer total = 0;
+            Double price =0d;
+            for (ProductDto p : lstCartDto){
+                total += p.getTotalItem();
+                price += p.getPrice();
+            }
+            ctx.setVariable("total", total);
+            ctx.setVariable("price", price);
+            ctx.setVariable("dateBuy",lstCartDto.get(0).getCreateDate());
+
             final MimeMessage message = this.javaMailSender.createMimeMessage();
             final MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, "UTF-8");
             mimeMessageHelper.setTo(toAddress);

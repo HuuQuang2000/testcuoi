@@ -279,44 +279,69 @@ public class ProductHistoryServiceImpl implements ProductHistoryService {
 
         rowHeader.setHeightInPoints(33);
         cellHeader = rowHeader.createCell(cellIndex);
-        cellHeader.setCellValue("THỐNG KÊ CÁC SẢN PHẨM ĐÃ BÁN");
+        cellHeader.setCellValue("THỐNG KÊ CÁC ĐƠN ĐẶT HÀNG");
         cellHeader.setCellStyle(headerCellStyle);
+        Double price = 0D;
+        Integer totalProduct = 0;
+        Integer totalRecept = receiptDtos.size();
 
-        rowHeader = sheet.createRow(rowIndex +=1);
+        for (ReceiptDto r : receiptDtos){
+            price += r.getPrice();
+            totalProduct += r.getTotal();
+        }
+        rowHeader = sheet.createRow(rowIndex +=2);
+        cellIndex = 0;
+        rowHeader = sheet.createRow(rowIndex);
         cellHeader = rowHeader.createCell(cellIndex);
-        cellHeader.setCellValue("STT");
+        cellHeader.setCellValue("Tổng số lượng hóa đơn: "+totalRecept);
         cellHeader.setCellStyle(headerCellStyle);
 
         cellHeader = rowHeader.createCell(cellIndex +=1);
-        cellHeader.setCellValue("Tên sản phẩm");
+        cellHeader.setCellValue("Tổng số sản phẩm: " +totalProduct);
         cellHeader.setCellStyle(headerCellStyle);
 
         cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Tên danh mục");
+        cellHeader.setCellValue("Tổng tiền: "+price);
         cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Đơn giá");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Số lượng mua");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Họ tên người mua");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Tên tài khoản");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Ngày mua");
-        cellHeader.setCellStyle(headerCellStyle);
+        rowIndex += 1;
         Integer numberOfItem = 0;
         for (ReceiptDto r :receiptDtos){
                 List<ProductHistoryDto> lstProductDto = r.getListProductDTO();
+            rowHeader = sheet.createRow(rowIndex +=1);
+            cellIndex = 0;
+
+            cellHeader = rowHeader.createCell(cellIndex);
+            cellHeader.setCellValue("STT");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex +=1);
+            cellHeader.setCellValue("Tên sản phẩm");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Tên danh mục");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Đơn giá");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Số lượng mua");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Họ tên người mua");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Tên tài khoản");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Ngày mua");
+            cellHeader.setCellStyle(headerCellStyle);
+                numberOfItem =0;
                 for (ProductHistoryDto item : lstProductDto) {
                     numberOfItem +=1;
                     rowIndex += 1;
@@ -356,25 +381,26 @@ public class ProductHistoryServiceImpl implements ProductHistoryService {
 
                 }
                 rowIndex += 1;
+                rowIndex += 1;
                 cellIndex = 0;
-                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 0, 0));
+//                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 0, 0));
                 rowHeader = sheet.createRow(rowIndex);
                 cellHeader = rowHeader.createCell(cellIndex);
                 cellHeader.setCellValue("Tài khoản: "+r.getName());
                 cellHeader.setCellStyle(headerCellStyle);
                 contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
-                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 1, 1));
+//                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 1, 1));
                 cellHeader = rowHeader.createCell(cellIndex += 1);
                 cellHeader.setCellValue("Tổng tiền: "+r.getPrice());
                 cellHeader.setCellStyle(headerCellStyle);
                 contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
-                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 2, 2));
+//                sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 2, 2));
                 cellHeader = rowHeader.createCell(cellIndex += 1);
                 cellHeader.setCellValue("Tổng số lượng: "+r.getTotal());
                 cellHeader.setCellStyle(headerCellStyle);
                 contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
                 rowIndex += 1;
-
+                rowIndex += 1;
                 sheet.setColumnWidth(0, 7500);
                 sheet.setColumnWidth(1, 7500);
                 sheet.setColumnWidth(2, 7500);

@@ -34,20 +34,29 @@ public class ReviewServiceImpl implements ReviewService {
     public void rating(ProductRating productRating) {
         Long id = (long) productRating.getIdProduct();
         List<Long> ids = new ArrayList<>();
-        ReceiptEntity receiptEntity = receiptRepository.findById(id).get();
-        receiptEntity.getProductHistorys().stream().forEach(x -> ids.add(x.getId()));
+        try{
+            ReceiptEntity receiptEntity = receiptRepository.findById(id).get();
+            receiptEntity.getProductHistorys().stream().forEach(x -> ids.add(x.getProductEntity().getId()));
+        }catch (Exception e){
+            System.out.println("lỗi"
+            );
+        }
         for (Long idProduct : ids){
-            ProductEntity productEntity = productRepository.getById(idProduct);
-            Integer ratingProduct = 0;
-            if(productEntity.getReviewEntity() == null){
-                ReviewEntity reviewEntity = new ReviewEntity();
-                reviewEntity.setRating(productRating.getRate());
-                productEntity.setReviewEntity(reviewEntity);
-            }else{
-                int a = (int) ((productRating.getRate() + productRating.getRate()) / 2);
-                productEntity.getReviewEntity().setRating(a);
+            try{
+                ProductEntity productEntity = productRepository.findById(idProduct).get();
+                Integer ratingProduct = 0;
+                if(productEntity.getReviewEntity() == null){
+                    ReviewEntity reviewEntity = new ReviewEntity();
+                    reviewEntity.setRating(productRating.getRate());
+                    productEntity.setReviewEntity(reviewEntity);
+                }else{
+                    int a = (int) ((productRating.getRate() + productRating.getRate()) / 2);
+                    productEntity.getReviewEntity().setRating(a);
+                }
+                productRepository.save(productEntity);
+            }catch (Exception  e){
+                System.out.printf("lỗi");
             }
-            productRepository.save(productEntity);
         }
     }
 
