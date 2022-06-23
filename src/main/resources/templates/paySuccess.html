@@ -78,7 +78,7 @@
         </div>
     </div>
 </div>
-<button type="button" class="btn btn-primary" id="test" data-toggle="modal" data-target="#exampleModal" style="display: none">
+<button type="button" class="btn btn-primary" id="test1" data-toggle="modal" data-target="#exampleModal" style="display: none">
 </button>
 
 <!-- Modal -->
@@ -90,10 +90,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                Cảm ơn khách hàng đã thanh toán
-                <br>
-                Website sẽ điều hướng bạn về trang chủ sau 3s
+            <div class="modal-body" style="color: black">
+                Đánh giá thành công !!!<br>
+                Hệ thống sẽ quay về trang chủ sau 3s!!!
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">đóng</button>
@@ -121,8 +120,8 @@
                 data:bodyRq,
                 success: function (result) {
                     if(result == true){
-                        document.getElementById("test").click();
-                        setInterval(function () {window.location="/product/index_user"}, 3000);
+                        document.getElementById("test1").click();
+                        setInterval(function () {window.location="/product/index_user"}, 5000);
                     }
                 },
                 error: function (error) {

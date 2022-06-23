@@ -141,7 +141,7 @@ public class ProductController {
         String uzxc = session.getAttribute("nameUser").toString();
         model.addAttribute("nameUser", uzxc);
         model.addAttribute("yes3", "true");
-        return "view_admin/report/index";
+        return "view_admin/report/productindex";
     }
 
     @Secured({"ROLE_ADMIN"})

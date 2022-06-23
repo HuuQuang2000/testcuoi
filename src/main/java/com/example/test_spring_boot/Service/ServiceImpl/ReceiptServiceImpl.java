@@ -166,43 +166,43 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         rowHeader.setHeightInPoints(33);
         cellHeader = rowHeader.createCell(cellIndex);
-        cellHeader.setCellValue("THỐNG KÊ CÁC SẢN PHẨM ĐÃ BÁN");
+        cellHeader.setCellValue("THỐNG KÊ CÁC ĐƠN ĐẶT HÀNG");
         cellHeader.setCellStyle(headerCellStyle);
 
-        rowHeader = sheet.createRow(rowIndex +=1);
-        cellHeader = rowHeader.createCell(cellIndex);
-        cellHeader.setCellValue("STT");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex +=1);
-        cellHeader.setCellValue("Tên sản phẩm");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Tên danh mục");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Đơn giá");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Số lượng mua");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Họ tên người mua");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Tên tài khoản");
-        cellHeader.setCellStyle(headerCellStyle);
-
-        cellHeader = rowHeader.createCell(cellIndex += 1);
-        cellHeader.setCellValue("Ngày mua");
-        cellHeader.setCellStyle(headerCellStyle);
-        Integer numberOfItem = 0;
         for (ReceiptDto r :receiptDtos){
+            rowHeader = sheet.createRow(rowIndex +=1);
+            cellHeader = rowHeader.createCell(cellIndex);
+            cellHeader.setCellValue("STT");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex +=1);
+            cellHeader.setCellValue("Tên sản phẩm");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Tên danh mục");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Đơn giá");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Số lượng mua");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Họ tên người mua");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Tên tài khoản");
+            cellHeader.setCellStyle(headerCellStyle);
+
+            cellHeader = rowHeader.createCell(cellIndex += 1);
+            cellHeader.setCellValue("Ngày mua");
+            cellHeader.setCellStyle(headerCellStyle);
+            Integer numberOfItem = 0;
             List<ProductHistoryDto> lstProductDto = r.getListProductDTO();
             for (ProductHistoryDto item : lstProductDto) {
                 numberOfItem +=1;
@@ -255,6 +255,7 @@ public class ReceiptServiceImpl implements ReceiptService {
             cellHeader.setCellValue("Tổng tiền: "+r.getPrice());
             cellHeader.setCellStyle(headerCellStyle);
             contentCellStyleDate.setBorderBottom(BorderStyle.THIN);
+            contentCellStyleDate.setBorderRight(BorderStyle.THIN);
             sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex+1 , 2, 2));
             cellHeader = rowHeader.createCell(cellIndex += 1);
             cellHeader.setCellValue("Tổng số lượng: "+r.getTotal());

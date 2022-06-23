@@ -72,7 +72,7 @@
                 $("footer").empty();
                 result.content.map(p =>
                     $('#tbodzy').append(`
-                            <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 " style="margin-top: 30px; margin-bottom: 30px">
+                            <div class="col-lg-4 col-md-6 col-sm-6 " style="margin-top: 30px; margin-bottom: 30px">
                                 <div class="card">
                                     <a href="/product/product_detail_user/${p.id}">
                                         <img class="card-img-top" src="/uploads/${p.image}">
@@ -170,47 +170,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <div class="footer_custom">
+    <div class="footer_custom Sm-hidden">
         <div class="row">
-            <div class="col-md-4 col-lg-4">
+            <div class="col-md-4 col-lg-4 sm-hidden">
                 <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Flittlesam.bq&tabs=timeline&width=340&height=420px&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=588776238780562" width="340" height="300px" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-                <div style="color: black; margin-left: 20px; margin-top: 5px">
-                    Fanpage : <a href="https://www.facebook.com/littlesam.bq">https://www.facebook.com/littlesam.bq</a>
-                </div>
+
             </div>
             <div class="col-md-4 col-lg-4" STYLE="text-align: justify;">
-                <h6 STYLE="color: black;margin-top: 5px;margin-bottom: 5px" >THÔNG TIN LIÊN HỆ</h6>
-                <h6 STYLE="color: black;margin-top: 5px;margin-bottom: 5px"  >Công ty TNHH XNK và Thương Mại Little Sam</h6>
+                <h6 STYLE="color: black;margin-bottom: 5px" >THÔNG TIN LIÊN HỆ</h6>
+                <h6 STYLE="color: black;margin-top: 10px;margin-bottom: 5px"  >Công ty TNHH XNK và Thương Mại Little Sam</h6>
                 <ul class="menu_footer">
                     <li class="footer_item">Người vận hàng: anh Nguyễn Hữu Quang</li>
                     <li class="footer_item">Địa chỉ: Số 269 - Đức Thượng - Hoài Đức - Hà Nội</li>
                     <li class="footer_item">Hotline: 0976474290 - 0333424955</li>
                     <li class="footer_item">Email: mo.nt@littlesam.com.vn</li>
+                    <li class="footer_item">Fanpage: <a href="https://www.facebook.com/littlesam.bq">https://www.facebook.com/littlesam.bq</a>
+                    </li>
                 </ul>
             </div>
-            <div class="col-md-4 col-lg-4" STYLE="color: black">
+            <div class="col-md-4 col-lg-4 sm-hidden" STYLE="color: black">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3722.9478049092395!2d105.6853401153327!3d21.074746791581887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134567f4de2a4b1%3A0x2bb0aa72971e33dd!2zNzIgVGjDtG4gTuG7mWkgMywgxJDhu6ljIFRoxrDhu6NuZywgSG_DoGkgxJDhu6ljLCBIw6AgTuG7mWksIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1655109146769!5m2!1svi!2s" width="350" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
-
-        <div>© 2020 Copyright:
-            <a href="/" style="text-decoration: none;color: orange"> B2C</a></div>
-    </div>
-    <!-- Copyright -->
-
 </div>
+
+
 <!-- Footer -->
 <style>
 .footer_custom{
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -660px;
-    background-color: #dddddd;
+    bottom: -800px;
+    background-color: #eeeeee;
     border-top: orange 2px solid;
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 45px;
 
 }
 .menu_footer{
@@ -225,7 +221,12 @@
     margin-bottom: 5px;
     border-bottom: 2px dotted orange;
 }
-</style>
+@media screen and (min-width: 480px)  and (max-width:750px){
+    .sm-hidden {
+        display: none;
+    }
+}
+
 <!-- Messenger Plugin chat Code -->
 </body>
 </html>

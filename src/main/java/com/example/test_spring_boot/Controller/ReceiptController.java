@@ -4,6 +4,7 @@ package com.example.test_spring_boot.Controller;
 import com.example.test_spring_boot.Dto.*;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Repository.CategoryRepository;
+import com.example.test_spring_boot.Repository.ReceiptRepository;
 import com.example.test_spring_boot.Repository.UserRepository;
 import com.example.test_spring_boot.Service.MailService;
 import com.example.test_spring_boot.Service.ReceiptService;
@@ -34,6 +35,8 @@ public class ReceiptController {
     CategoryRepository categoryRepository;
     @Autowired
     ReceiptService receiptService;
+    @Autowired
+    ReceiptRepository receiptRepository;
     @Autowired
     UserRepository userService;
     @Autowired
@@ -135,7 +138,7 @@ public class ReceiptController {
        List<ReceiptDto> list = receiptService.getAll();
        if(list != null && list.size() > 0){
            for (int i =0 ; i < list.size() ; i ++){
-               if(!list.get(i).getListProductDTO().get(0).getUsername().contains(username) && list.get(i).getListProductDTO() != null ){
+               if(list.get(i).getListProductDTO() != null && !list.get(i).getListProductDTO().get(0).getFullname().contains(username) ){
                    list.remove(list.get(i));
                };
            }

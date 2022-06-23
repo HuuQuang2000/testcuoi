@@ -69,65 +69,67 @@
 <!-- Sidebar filter section -->
 
 <section id="sidebar">
-    <p> Home | <b>All Product</b></p>
-    <div class="border-bottom pb-2 ml-2">
-        <h4>Filters</h4>
-    </div>
-    <div class="py-2 border-bottom ml-3">
-        <h6 class="font-weight-bold">Categories</h6>
-        <div><span class="fa fa-minus"></span></div>
-        <form>
-            <div class="form-group" th:each="item : ${categories}">
-                <input class="categoryy"  onclick="searchByDto()" type="checkbox"  th:value="${item.id}">
-                <label th:text="${item.name}"></label>
-            </div>
-        </form>
-    </div>
-    <div class="py-2 border-bottom ml-3">
-        <h6 class="font-weight-bold">Rating</h6>
-        <div ><span class="fa fa-minus"></span></div>
-        <form>
-            <div class="form-group">
-                <input class="star" onclick="searchByDto()" type="checkbox" value="1">
-                <label>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                </label>
-            </div>
-            <div class="form-group">
-                <input class="star" onclick="searchByDto()" type="checkbox" value="2">
-                <label>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                </label>
-            </div>
-            <div class="form-group">
-                <input class="star" onclick="searchByDto()" type="checkbox" value="3">
-                <label>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                </label>
-            </div>
-            <div class="form-group">
-                <input class="star" onclick="searchByDto()" type="checkbox" value="4">
-                <label>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                </label>
-            </div>
-            <div class="form-group">
-                <input class="star" onclick="searchByDto()" type="checkbox" value="5">
-                <label>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                    <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
-                </label>
-            </div>
-        </form>
+    <div class="sm-hidden">
+        <p> Home | <b>All Product</b></p>
+        <div class="border-bottom pb-2 ml-2">
+            <h4>Filters</h4>
+        </div>
+        <div class="py-2 border-bottom ml-3">
+            <h6 class="font-weight-bold">Categories</h6>
+            <div><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group" th:each="item : ${categories}">
+                    <input class="categoryy"  onclick="searchByDto()" type="checkbox"  th:value="${item.id}">
+                    <label th:text="${item.name}"></label>
+                </div>
+            </form>
+        </div>
+        <div class="py-2 border-bottom ml-3">
+            <h6 class="font-weight-bold">Rating</h6>
+            <div ><span class="fa fa-minus"></span></div>
+            <form>
+                <div class="form-group">
+                    <input class="star" onclick="searchByDto()" type="checkbox" value="1">
+                    <label>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input class="star" onclick="searchByDto()" type="checkbox" value="2">
+                    <label>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input class="star" onclick="searchByDto()" type="checkbox" value="3">
+                    <label>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input class="star" onclick="searchByDto()" type="checkbox" value="4">
+                    <label>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input class="star" onclick="searchByDto()" type="checkbox" value="5">
+                    <label>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color:#d0011b;"></i>
+                    </label>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 <!-- products section -->
@@ -150,7 +152,7 @@
         <div class="row" id="tbodzy">
         </div>
         <nav aria-label="Page navigation example" style="position: relative">
-            <ul id="pagination_z" class="pagination" style="position: absolute; position: absolute;left: 35%;padding-bottom: 20px;">
+            <ul id="pagination_z" class="pagination" style="position: absolute; position: absolute;left: 20%;padding-bottom: 20px;">
             </ul>
         </nav>
     </div>
