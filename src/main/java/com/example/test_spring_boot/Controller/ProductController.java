@@ -129,7 +129,9 @@ public class ProductController {
     @GetMapping("/remove_product/{id}")
     public String removeProduct(@PathVariable("id") Long id){
         ProductDto productDto = new ProductDto(productRepository.findById(id).get());
-        productRepository.deleteById(id);
+        ProductEntity productEntity = productRepository.findById(id).get();
+        productEntity.setActive(0);
+        productRepository.save(productEntity);
         return "redirect:/product/category/getAll/"+productDto.getCategoryId();
     }
 

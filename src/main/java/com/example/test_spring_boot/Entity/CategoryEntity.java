@@ -20,4 +20,6 @@ public class CategoryEntity extends BaseEntity{
 
     @Column(name = "name")
     private String name;
+
+    private Integer active;
 }

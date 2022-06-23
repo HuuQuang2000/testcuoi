@@ -95,7 +95,9 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     public String removeUser(@PathVariable("id") Long id){
         List<CategoryDto> lstCategory = categoryRepository.getAllDto();
-        userRepository.deleteById(id);
+        UserEntity userEntity = userRepository.findById(id).get();
+        userEntity.setActive(0);
+        userRepository.save(userEntity);
         return "redirect:/user/manager_user";
     }
     @PostMapping("/sendMailResetPassWord")

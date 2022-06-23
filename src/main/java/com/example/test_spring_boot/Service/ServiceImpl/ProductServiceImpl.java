@@ -99,6 +99,7 @@ public class ProductServiceImpl implements ProductService {
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setRating(5);
         productEntity1.setReviewEntity(reviewEntity);
+        productEntity1.setActive(1);
         productEntity1 = productRepository.save(productEntity1);
         return new ProductDto(productEntity1);
     }
@@ -112,7 +113,7 @@ public class ProductServiceImpl implements ProductService {
         else
             pageIndex = 0;
 
-        String sql = "select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where (1=1)";
+        String sql = "select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where (1=1) and p.active = 1 ";
         String whereClause = "";
 
         if (searchDto.getCategoryId() != null && searchDto.getCategoryId() > 0) {
@@ -346,7 +347,7 @@ public class ProductServiceImpl implements ProductService {
             pageIndex = 0;
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
 
-        String sql = "select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where (1=1)";
+        String sql = "select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where (1=1) and p.active = 1 ";
         String sqlCount = "select COUNT(p.id) from ProductEntity p where (1=1)";
         String whereClause = "";
 

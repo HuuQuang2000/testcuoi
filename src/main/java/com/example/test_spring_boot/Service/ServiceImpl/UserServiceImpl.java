@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
                    u.getRoles().clear();
                }
                u.setRoles(roleSet);
+               u.setActive(1);
                u = userRepository.save(u);
                return u;
     }
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService {
                 roleEntities.add(role);
                 userEntity.setRoles(roleEntities);
                 userEntity.setFullname(userDto.getFullname());
+                userEntity.setActive(1);
                 userEntity = userRepository.save(userEntity);
             }
         }

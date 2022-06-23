@@ -37,5 +37,5 @@ public class UserEntity extends BaseEntity{
     private String methodLogin;
 
     private int token;
-
+    private Integer active;
 }

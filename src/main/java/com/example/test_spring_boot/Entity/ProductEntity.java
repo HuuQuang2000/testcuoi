@@ -38,5 +38,6 @@ public class ProductEntity extends BaseEntity{
 
     @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     private CategoryEntity categoryEntity;
+    private Integer active;
 
 }

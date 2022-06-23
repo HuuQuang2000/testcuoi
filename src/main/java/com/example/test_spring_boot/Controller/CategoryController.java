@@ -52,8 +52,14 @@ public class CategoryController {
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/remove_cateogry/{id}")
     public String removeCategory(@PathVariable("id") Long id){
-        if(id != null)
-            categoryRepository.deleteById(id);
+        if(id != null){
+            CategoryEntity categoryEntity = categoryRepository.findById(id).orElse(null);
+            categoryEntity.setActive(0);
+            categoryRepository.save(categoryEntity);
+        }else {
+
+        }
+
         return "redirect:/category/index";
     }
     @Secured({"ROLE_ADMIN"})

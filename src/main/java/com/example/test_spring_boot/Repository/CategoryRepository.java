@@ -15,11 +15,11 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    @Query("SELECT new com.example.test_spring_boot.Dto.CategoryDto(c) from CategoryEntity c")
+    @Query("SELECT new com.example.test_spring_boot.Dto.CategoryDto(c) from CategoryEntity c where c.active = 1")
     List<CategoryDto> getAllDto();
-    @Query("select p from CategoryEntity p")
+    @Query("select p from CategoryEntity p where p.active = 1")
     Page<CategoryEntity> getAll(Pageable pageable);
 
-    @Query("select p from CategoryEntity p where p.name like concat('%',:name,'%') ")
+    @Query("select p from CategoryEntity p where p.name like concat('%',:name,'%') and p.active = 1")
     Page<CategoryEntity> getAllByName(Pageable pageable,@Param("name") String name);
 }

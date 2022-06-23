@@ -14,14 +14,14 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
-    @Query("select p from ProductEntity p")
+    @Query("select p from ProductEntity p where p.active = 1")
     Page<ProductEntity> getByPage(Pageable pageable);
 
-    @Query("select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where p.id = ?1")
+    @Query("select new com.example.test_spring_boot.Dto.ProductDto(p) from ProductEntity p where p.id = ?1 and p.active = 1")
     ProductDto getDtoById(Long id);
 
-    @Query("select u from ProductEntity u where u.name like ?1")
+    @Query("select u from ProductEntity u where u.name like ?1 and u.active = 1")
     ProductEntity getByName(String name);
-    @Query("select r from ProductEntity r where r.id in ?1")
+    @Query("select r from ProductEntity r where r.id in ?1 and r.active = 1")
     List<ProductEntity> getAllById(List<Long> id);
 }
