@@ -70,8 +70,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 response.sendRedirect("/product/categoryProduct/index");
                             }
                             else if(x.getAuthority().equals("ROLE_USER")){
-                                session.setAttribute("nameUser", finalNameZ);
-                                response.sendRedirect("/product/index_user");
+                                if (ud.userEntity.getActive() == 0){
+                                    session.setAttribute("dangnhaperror","error");
+                                    response.sendRedirect("/login");
+                                }else {
+                                    session.setAttribute("nameUser", finalNameZ);
+                                    response.sendRedirect("/product/index_user");
+                                }
                             }
                         }
                         catch (IOException e) {

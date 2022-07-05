@@ -47,6 +47,7 @@ public class MailServiceImpl implements MailService {
                 total += p.getTotalItem();
                 price += p.getPrice();
             }
+            price += 30000;
             ctx.setVariable("total", total);
             ctx.setVariable("price", price);
             ctx.setVariable("dateBuy",lstCartDto.get(0).getCreateDate());

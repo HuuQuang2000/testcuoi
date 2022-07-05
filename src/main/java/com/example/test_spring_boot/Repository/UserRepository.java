@@ -18,9 +18,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     @Query("select u from UserEntity u where u.email like ?1 and u.token = ?2")
     UserEntity getByEmailAndToken(String email,int token);
-    @Query("select u from UserEntity u where u.username like concat('%' , ?1,'%')")
+    @Query("select u from UserEntity u where u.username like concat('%' , ?1,'%') and u.active =1")
     Page<UserEntity> getAllByName(String name , Pageable pageable);
 
-    @Query("select u from UserEntity u")
+    @Query("select u from UserEntity u where u.active = 1")
     Page<UserEntity> getAll(Pageable pageable);
 }

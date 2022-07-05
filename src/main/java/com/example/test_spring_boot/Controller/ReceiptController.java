@@ -125,7 +125,7 @@ public class ReceiptController {
         for(ProductHistoryDto r: receiptDto1.getListProductDTO()){
             CartDto cartDto = new CartDto();
             cartDto.setTotalItem(r.getTotalItem());
-            cartDto.setIdProduct(r.getId());
+            cartDto.setIdProduct(r.getProductDto().getId());
             cartDtos.add(cartDto);
         }
         mailService.sendMail(receiptDto1.getFullname(), "Thanh toán thành công!!!",null,null,null,cartDtos);
@@ -136,17 +136,18 @@ public class ReceiptController {
     public String userReceipt(Model model, @RequestParam("username") String username, HttpSession session) throws IOException {
        UserDto userDto = new UserDto(userService.getByUsername(username));
        List<ReceiptDto> list = receiptService.getAll();
+       List<ReceiptDto> a = new ArrayList<>();
        if(list != null && list.size() > 0){
-           for (int i =0 ; i < list.size() ; i ++){
-               if(list.get(i).getListProductDTO() != null && !list.get(i).getListProductDTO().get(0).getFullname().contains(username) ){
-                   list.remove(list.get(i));
+           for (int i =0 ; i < list.size() ; i++){
+               if(list.get(i).getListProductDTO() != null && list.get(i).getListProductDTO().get(0).getFullname().contains(username) ){
+                   a.add(list.get(i));
                };
            }
        }else {
            list =new ArrayList<>();
        }
        session.setAttribute("nameUser",username);
-       model.addAttribute("listReceipt",list);
+       model.addAttribute("listReceipt",a);
         return "view_user/receipt";
     }
 }

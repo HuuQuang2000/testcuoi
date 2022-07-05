@@ -43,4 +43,8 @@ public interface ReceiptRepository extends JpaRepository<ReceiptEntity, Long> {
 
     @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r where r.CreateBy like ?1")
     List<ReceiptDto> getAllByUsername(String username);
+
+
+    @Query("select new com.example.test_spring_boot.Dto.ReceiptDto(r) from ReceiptEntity r join r.ProductHistorys p where p.userEntity.username like ?1")
+    List<ReceiptDto> getAllByUsernameJoin(String username);
 }

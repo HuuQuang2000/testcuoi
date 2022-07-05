@@ -27,6 +27,7 @@ public class ProductHistoryDto {
     private String fullname = "";
     private String price;
     private String image;
+    private ProductDto productDto;
 
     public ProductHistoryDto(ProductHistory productHistory){
         if(productHistory != null){
@@ -40,6 +41,9 @@ public class ProductHistoryDto {
                 if(productHistory.getModifierDate() != null){
                     this.createDate =  new SimpleDateFormat("yyyy-MM-dd HH:ss").format(productHistory.getModifierDate());
                 }
+            }
+            if(productHistory.getUserEntity() != null){
+                this.productDto = new ProductDto(productHistory.getProductEntity());
             }
             if(productHistory.getUserEntity() != null && productHistory.getUserEntity().getUsername() != null)
                 this.username = productHistory.getUserEntity().getUsername();

@@ -150,15 +150,16 @@ public class UserController {
         model.addAttribute("nameUser", uzxc);
         model.addAttribute("idReceipt", id);
         UserEntity userEntity = userRepository.getByUsername(uzxc);
+
         List<CartDto> cartDtos = new ArrayList<>();
         for(ProductHistoryDto r: receiptDto1.getListProductDTO()){
             CartDto cartDto = new CartDto();
             cartDto.setTotalItem(r.getTotalItem());
-            cartDto.setIdProduct(r.getId());
+            cartDto.setIdProduct(r.getProductDto().getId());
             cartDtos.add(cartDto);
         }
         try{
-            mailService.sendMail(userEntity.getEmail(), "Thanh toán thành công!!!",null,null,null,cartDtos);
+            mailService.sendMail(receiptDto1.getFullname(), "Thanh toán thành công!!!",null,null,null,cartDtos);
         }catch (Exception e){
             System.out.printf("emial ko coos");
         }

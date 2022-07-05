@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
                UserEntity u = null;
                if(userRepository.getByEmail(email) != null){
                    u = userRepository.getByEmail(email);
-                  if(u.getMethodLogin() != null &&!u.getMethodLogin().contains(method) ){
+                  if(u.getMethodLogin() != null &&!u.getMethodLogin().contains(method) || u.getActive() == 0){
                       return null;
                   }
                }else {
