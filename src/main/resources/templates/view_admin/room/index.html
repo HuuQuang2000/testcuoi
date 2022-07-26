@@ -1,0 +1,153 @@
+<section th:replace="/view_admin/fragment/header"></section>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4" >
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" style="position: relative">
+                        <h6 class="text-white text-capitalize ps-3">Quản lý phòng</h6>
+                        <a style="position: absolute;right: 1%;bottom: 20%;" type="button" data-toggle="modal" data-target="#exampleModal">
+                            <i class="material-icons text-3xl me-2" style="color: white">add</i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2" >
+                    <nav class="navbar navbar-light bg-light" style="float: right;right: 20px;margin-bottom: 15px;background: none;border-radius: 10px;">
+                        <form class="form-inline" id="formSearch">
+                            <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+                            <button  class="btn my-2 my-sm-0" style="color: white;background:#e33c76;">Search</button>
+                        </form>
+                    </nav>
+                    <div>
+                        <button class="btn my-2 my-sm-0" style="color: white;background:#e33c76;" data-toggle="modal" data-target="#exampleModal1">Đặt phòng</button>
+                    </div>
+                    <div class="table-responsive p-0">
+
+                        <table class="table align-items-center mb-0" >
+                            <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tên </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Trạng thái</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Giá</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody  id="example">
+                            <tr th:each="item : ${listRoom}">
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm" th:text="${item.name}"></h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm" th:text="${item.status} == 1 ? 'chưa thuê' : 'đã thuê' "></h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="d-flex px-2 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm" th:text="${item.price}"></h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex" style="position: relative;left: 75px;">
+                                        <form style="margin-left: 10px"  method="get"  th:action="|@{/room/delete/}${item.id}|">
+                                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">delete</i>Delete</button>
+                                        </form>
+                                        <form  method="get"  th:action="|@{/room/formUpdate/}${item.id}|">
+                                            <button class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</button>
+                                        </form>
+                                        <form  method="get"  th:action="|@{/room/formUpdate/}${item.id}|" th:switch="${item.status}">
+                                            <button th:case="1" class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="mt-5" style="position: relative;height: 100px;" >
+        <ul class="pagination" style="position: absolute;left: 40% ; top: -20px" id="pagination_z">
+        </ul>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post" class="modal-content" th:action="@{/room/addOrUpdate}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lưu mới phòng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label >Danh mục sản phẩm:</label>
+                    <select class="form-control" name="idCategory">
+                        <option value="0">Xin mời chọn</option>
+                        <option th:each="item : ${listCategory}" th:text="${item.getName()}" th:value="${item.getId()}">1</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Tên phòng:</label>
+                    <input type="text"  class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label >giá phòng:</label>
+                    <input type="text"  class="form-control" name="price">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form method="post" class="modal-content" th:action="@{/order/add}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Đặt phòng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label >danh sách phòng</label>
+                    <select class="form-control" name="idRoom">
+                        <option value="0">Xin mời chọn</option>
+                        <option th:each="item : ${listRoomStatus}" th:text="${item.getName()}" th:value="${item.getId()}">1</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label >Tên phòng:</label>
+                    <input type="date"  class="form-control" name="dateStartFormat">
+                </div>
+                <div class="form-group">
+                    <label >giá phòng:</label>
+                    <input type="date"  class="form-control" name="dateEndFormat">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<section th:replace="/view_admin/fragment/footer"></section>

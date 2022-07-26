@@ -1,0 +1,24 @@
+<section th:replace="/view_admin/fragment/header"></section>
+<div class="mt-5 ml-5 mr-5">
+    <a href="/"></a>
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">chi tiết đặt phòng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label >Tên phòng:</label>
+                <input type="text"  class="form-control" name="name" th:value="${orderDto.name}">
+            </div>
+            <div class="form-group">
+                <label >giá phòng:</label>
+                <input type="text"  class="form-control" name="price" th:value="${orderDto.price}">
+            </div>
+        </div>
+</div>
+<script>
+    $("#category_view").addClass("active bg-gradient-primary");
+</script>
+<section th:replace="/view_admin/fragment/footer"></section>

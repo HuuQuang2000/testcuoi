@@ -1,5 +1,6 @@
 package com.example.test_spring_boot.Entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,15 +9,20 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class RoleEntity {
+@Table(name = "tbl_room")
+@AllArgsConstructor
+@NoArgsConstructor
+public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
+    private Integer Status;
     private String name;
+    private Double price;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private CategoryEntity categoryEntity;
+    private Integer active;
+    private Integer type;
 }

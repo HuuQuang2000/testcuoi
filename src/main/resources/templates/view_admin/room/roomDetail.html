@@ -1,0 +1,38 @@
+<section th:replace="/view_admin/fragment/header"></section>
+<div class="mt-5 ml-5 mr-5">
+    <h1>Cập nhật</h1>
+    <form method="post" class="modal-content" th:action="@{/room/addOrUpdate}">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Lưu mới phòng</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label >Danh mục sản phẩm:</label>
+                <select class="form-control" name="idCategory">
+                    <option value="0">Xin mời chọn</option>
+                    <option th:each="item : ${listCategory}" th:text="${item.getName()}" th:value="${item.getId()}">1</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label >Tên phòng:</label>
+                <input type="text"  class="form-control" name="name" th:value="${roomDto.name}">
+            </div>
+            <div class="form-group">
+                <label >giá phòng:</label>
+                <input type="text"  class="form-control" name="price" th:value="${roomDto.price}">
+                <input type="hidden"  class="form-control" name="id" th:value="${roomDto.id}">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+    </form>
+</div>
+<script>
+    $("#category_view").addClass("active bg-gradient-primary");
+</script>
+<section th:replace="/view_admin/fragment/footer"></section>

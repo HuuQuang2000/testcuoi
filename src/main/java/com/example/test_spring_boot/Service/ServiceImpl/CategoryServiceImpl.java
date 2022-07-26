@@ -1,7 +1,6 @@
 package com.example.test_spring_boot.Service.ServiceImpl;
 
 import com.example.test_spring_boot.Dto.CategoryDto;
-import com.example.test_spring_boot.Dto.ProductDto;
 import com.example.test_spring_boot.Dto.SearchDto.SearchReportDto;
 import com.example.test_spring_boot.Entity.CategoryEntity;
 import com.example.test_spring_boot.Repository.CategoryRepository;
@@ -12,9 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,5 +56,10 @@ public class CategoryServiceImpl implements CategoryService {
         Pageable pageable = PageRequest.of(pageIndex,pageSize);
         Page<CategoryDto> list = categoryRepository.getAll(pageable).map(x -> new CategoryDto(x));
         return list;
+    }
+
+    @Override
+    public List<CategoryDto> getAll() {
+        return categoryRepository.getAllDto();
     }
 }

@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/add", "/product/index_user",
+                .antMatchers("/login", "/add", "/product/index_user","/user/**",
                         "/add_cart/**",
                         "/cart","/product_detail_user/**","/review/**",
                         "/search_report", "/search_report_by_page",
@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         try{
                             if(x.getAuthority().equals("ROLE_ADMIN")){
                                 session.setAttribute("nameUser", finalNameZ);
-                                response.sendRedirect("/product/categoryProduct/index");
+                                response.sendRedirect("/category/index");
                             }
                             else if(x.getAuthority().equals("ROLE_USER")){
                                 if (ud.userEntity.getActive() == 0){
@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                     response.sendRedirect("/login");
                                 }else {
                                     session.setAttribute("nameUser", finalNameZ);
-                                    response.sendRedirect("/product/index_user");
+                                    response.sendRedirect("/");
                                 }
                             }
                         }
@@ -108,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         }else {
                             UserEntity user = userRepository.getByEmail(email);
                             session.setAttribute("nameUser", oAuth2User.getName());
-                            response.sendRedirect("/product/index_user");
+                            response.sendRedirect("/");
                         }
                     }
                 })

@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ResultDto {
-    private List<ProductDto> productDtos;
-    private ReceiptDto receiptDto;
+
     private Double sumPrice;
     private Long sumtotal;
     private int length;

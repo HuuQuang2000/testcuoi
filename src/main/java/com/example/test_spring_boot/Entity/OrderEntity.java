@@ -6,17 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
-@Entity
-@Table(name = "role")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class RoleEntity {
+@Entity
+@Table(name = "tbl_order")
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
     private String name;
+    @ManyToOne
+    UserEntity userEntity;
+    private Date dayStartOrder;
+    private Date dayEndOrder;
+    @OneToOne
+    private RoomEntity roomEntitySet;
+    private Integer active;
+    private Double price;
 }
