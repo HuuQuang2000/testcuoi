@@ -43,8 +43,6 @@ public class HomeController {
         model.addAttribute("listRoom",iRoomService.getAll());
         model.addAttribute("listRoomStatus",iRoomService.getAllByStatus());
         model.addAttribute("listCategory",categoryService.getAll());
-
-
         return "/view_admin/room/index";
     }
     @Secured({"ROLE_ADMIN"})

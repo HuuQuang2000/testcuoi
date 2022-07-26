@@ -97,7 +97,6 @@ public class UserController {
         int range = max - min + 1;
         int token = (int)(Math.random() * range);
         UserEntity userEntity = userRepository.getByEmail(userDto.getEmail());
-
         if(userEntity != null){
             userEntity.setToken(token);
             userRepository.save(userEntity);

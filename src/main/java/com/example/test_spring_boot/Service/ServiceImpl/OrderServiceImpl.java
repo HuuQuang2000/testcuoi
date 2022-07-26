@@ -37,7 +37,7 @@ public class OrderServiceImpl implements IOrderService {
             Date dateEnd = df.parse(orderDTO.getDateEndFormat());
             orderEntity.setDayEndOrder(dateEnd);
             orderEntity.setDayStartOrder(dateStart);
-            dateOrder = Double.valueOf((dateEnd.getTime()-dateStart.getTime()) /24/60/60/60);
+            dateOrder = Double.valueOf((dateEnd.getTime()-dateStart.getTime()) /24/60/60/1000);
         }catch (Exception e){
             return null;
         }
