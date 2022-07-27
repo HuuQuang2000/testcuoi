@@ -64,7 +64,7 @@
                                             <button class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</button>
                                         </form>
                                         <form  method="get"  th:action="|@{/room/formUpdate/}${item.id}|" th:switch="${item.status}">
-                                            <button th:case="1" class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</button>
+                                            <button th:case="0" class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>trả phòng</button>
                                         </form>
                                     </div>
                                 </td>
